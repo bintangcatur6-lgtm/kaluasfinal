@@ -1,69 +1,79 @@
-# Eigenface
+# Eigenface 
 
-## Pengenalan Wajah dengan Metode Eigenfaces (PCA)
+## Tugas Eigenface (PCA)
 
-Metode **Eigenfaces** adalah salah satu pendekatan klasik paling populer dalam pengenalan wajah yang berbasis pada teknik statistik bernama **Principal Component Analysis (PCA)**. 
+## 1. Data Representasi Wajah (Vektor Wajah)
 
-Secara umum, metode ini bekerja dengan cara mereduksi dimensi gambar wajah yang tinggi (ribuan piksel) menjadi ruang dimensi yang lebih rendah yang disebut **Eigenspace** (ruang eigen) tanpa kehilangan karakteristik penting dari wajah tersebut.
+Misalkan kita memiliki 3 buah gambar wajah training yang sudah diubah menjadi vektor baris 1D berukuran $1 \times 4$ piksel (dimensi rendah untuk penyederhanaan kalkulasi):
 
----
+$$\begin{aligned}
+\Gamma_1 &= \begin{bmatrix} 2 & 4 & 4 & 2 \end{bmatrix} \\
+\Gamma_2 &= \begin{bmatrix} 4 & 2 & 2 & 4 \end{bmatrix} \\
+\Gamma_3 &= \begin{bmatrix} 3 & 3 & 3 & 3 \end{bmatrix}
+\end{aligned}$$
 
-### Alur Kerja Algoritma Eigenfaces
+## 2. Menghitung Wajah Rata-Rata (Mean Face)
 
-Proses pengenalan wajah baru melalui alur matematis dan komputasi sebagai berikut:
+Wajah rata-rata ($\Psi$) dihitung dengan menjumlahkan seluruh vektor wajah lalu dibagi dengan jumlah sampel ($M=3$):
 
-#### 1. Preprocessing Data Training
-* Setiap gambar wajah training berukuran $M \times N$ piksel diubah (*flatten*) menjadi sebuah vektor satu dimensi berukuran $D \times 1$, di mana $D = M \times N$.
-* Seluruh vektor wajah digabungkan ke dalam sebuah matriks data wajah.
+$$\Psi = \frac{1}{3} \sum_{i=1}^{3} \Gamma_i$$
 
-#### 2. Menghitung Wajah Rata-Rata (Mean Face)
-Sistem menghitung rata-rata dari seluruh wajah training menggunakan rumus:
-$$\Psi = \frac{1}{M} \sum_{i=1}^{M} \Gamma_i$$
+$$\Psi = \frac{1}{3} \left( \begin{bmatrix} 2 & 4 & 4 & 2 \end{bmatrix} + \begin{bmatrix} 4 & 2 & 2 & 4 \end{bmatrix} + \begin{bmatrix} 3 & 3 & 3 & 3 \end{bmatrix} \right)$$
 
-Di mana $\Gamma_i$ adalah vektor wajah ke-$i$, dan $M$ adalah total gambar training.
+$$\Psi = \begin{bmatrix} 3 & 3 & 3 & 3 \end{bmatrix}$$
 
-#### 3. Normalisasi Wajah (Mencari Deviasi)
-Setiap wajah training dikurangi dengan wajah rata-rata untuk menyisakan fitur-fitur pembeda yang unik saja:
-$$\Phi_i = \Gamma_i - \Psi$$
+## 3. Normalisasi Wajah (Mencari Deviasi $\Phi$)
 
-#### 4. Membangun Eigenspace (Matriks Kovarian & Eigenvectors)
-* Menghitung matriks kovarian dari data yang telah dinormalisasi untuk melihat korelasi antar piksel.
-* Dari matriks kovarian tersebut, dicari nilai eigen (*eigenvalues*) dan vektor eigen (*eigenvectors*).
-* Vektor eigen yang memiliki nilai varians terbesar dipilih sebagai komponen utama. Vektor inilah yang disebut sebagai **Eigenfaces** (Wajah Eigen).
+Setiap wajah dikurangi dengan wajah rata-rata ($\Phi_i = \Gamma_i - \Psi$):
 
-#### 5. Proyeksi dan Pencocokan Wajah Baru
-Ketika ada input wajah baru ($\Gamma_{\text{baru}}$) masuk ke sistem:
-1. **Normalisasi:** Wajah baru dikurangi wajah rata-rata training $\Phi_{\text{baru}} = \Gamma_{\text{baru}} - \Psi$.
-2. **Proyeksi:** Vektor $\Phi_{\text{baru}}$ dikalikan dengan matriks Eigenfaces untuk mendapatkan bobot atau koordinatnya di dalam *Eigenspace*.
-3. **Pencocokan:** Koordinat wajah baru ini dibandingkan dengan seluruh koordinat wajah training menggunakan perhitungan jarak **Euclidean Distance**.
-4. **Hasil:** Wajah training yang memiliki jarak paling dekat (*minimum distance*) dinyatakan sebagai identitas orang yang paling mirip.
+$$\begin{aligned}
+\Phi_1 &= \begin{bmatrix} 2-3 & 4-3 & 4-3 & 2-3 \end{bmatrix} = \begin{bmatrix} -1 & 1 & 1 & -1 \end{bmatrix} \\
+\Phi_2 &= \begin{bmatrix} 4-3 & 2-3 & 2-3 & 4-3 \end{bmatrix} = \begin{bmatrix} 1 & -1 & -1 & 1 \end{bmatrix} \\
+\Phi_3 &= \begin{bmatrix} 3-3 & 3-3 & 3-3 & 3-3 \end{bmatrix} = \begin{bmatrix} 0 & 0 & 0 & 0 \end{bmatrix}
+\end{aligned}$$
 
----
+Matriks Deviasi Total ($A$):
 
-### Contoh Implementasi Sederhana dengan Python
+$$A = \begin{bmatrix} \Phi_1 \\ \Phi_2 \\ \Phi_3 \end{bmatrix} = \begin{bmatrix} -1 & 1 & 1 & -1 \\ 1 & -1 & -1 & 1 \\ 0 & 0 & 0 & 0 \end{bmatrix}$$
 
-Jika Anda ingin mencoba simulasinya menggunakan Python (bisa diterapkan pada file `notebooks.ipynb`), berikut adalah potongan kode dasarnya:
+## 4. Membangun Eigenspace (Matriks Kovarian)
 
-```python
-import numpy as np
-from sklearn.decomposition import PCA
-from sklearn.metrics.pairwise import euclidean_distances
+Matriks Kovarian ($C$) dihitung melalui rumus $C = A^T \cdot A$:
 
-# 1. Simulasi Data Gambar Wajah (Ukuran 100x100 piksel = 10.000 fitur)
-# Misal ada 3 sampel wajah training
-X_train = np.random.rand(3, 10000) 
-labels = ["Andi", "Budi", "Cici"]
+$$C = \begin{bmatrix} -1 & 1 & 0 \\ 1 & -1 & 0 \\ 1 & -1 & 0 \\ -1 & 1 & 0 \end{bmatrix} \begin{bmatrix} -1 & 1 & 1 & -1 \\ 1 & -1 & -1 & 1 \\ 0 & 0 & 0 & 0 \end{bmatrix} = \begin{bmatrix} 2 & -2 & -2 & 2 \\ -2 & 2 & 2 & -2 \\ -2 & 2 & 2 & -2 \\ 2 & -2 & -2 & 2 \end{bmatrix}$$
 
-# 2. Proses Training: Membangun Eigenspace dengan PCA
-pca = PCA(n_components=2, whiten=True).fit(X_train)
-X_train_pca = pca.transform(X_train) # Bobot training
+Dari matriks $C$ di atas, diperoleh Vektor Eigen Utama (Eigenface) setelah dinormalisasi:
 
-# 3. Proses Testing: Input wajah baru
-X_new_face = np.random.rand(1, 10000)
-X_new_pca = pca.transform(X_new_face) # Proyeksi ke Eigenspace
+$$u_1 = \begin{bmatrix} 0.5 & -0.5 & -0.5 & 0.5 \end{bmatrix}$$
 
-# 4. Hitung Jarak Terdekat (Euclidean Distance)
-distances = euclidean_distances(X_new_pca, X_train_pca)[0]
-idx_terdekat = np.argmin(distances)
+## 5. Proyeksi Wajah Training (Menghitung Bobot / Weights)
 
-print(f"Wajah baru paling mirip dengan: {labels[idx_terdekat]} (Jarak: {distances[idx_terdekat]:.4f})")
+Setiap wajah training diproyeksikan ke Eigenface ($u_1$) untuk mendapatkan bobot ($W_i = \Phi_i \cdot u_1^T$):
+
+$$\begin{aligned}
+W_1 &= \begin{bmatrix} -1 & 1 & 1 & -1 \end{bmatrix} \cdot \begin{bmatrix} 0.5 \\ -0.5 \\ -0.5 \\ 0.5 \end{bmatrix} = (-0.5) + (-0.5) + (-0.5) + (-0.5) = -2 \\
+W_2 &= \begin{bmatrix} 1 & -1 & -1 & 1 \end{bmatrix} \cdot \begin{bmatrix} 0.5 \\ -0.5 \\ -0.5 \\ 0.5 \end{bmatrix} = 0.5 + 0.5 + 0.5 + 0.5 = 2 \\
+W_3 &= \begin{bmatrix} 0 & 0 & 0 & 0 \end{bmatrix} \cdot \begin{bmatrix} 0.5 \\ -0.5 \\ -0.5 \\ 0.5 \end{bmatrix} = 0
+\end{aligned}$$
+
+## 6. Pengenalan Wajah Baru (Testing)
+
+Misalkan ada input gambar wajah baru:
+
+$$\Gamma_{\text{baru}} = \begin{bmatrix} 1 & 5 & 5 & 1 \end{bmatrix}$$
+
+### Langkah 1: Normalisasi Wajah Baru
+$$\Phi_{\text{baru}} = \Gamma_{\text{baru}} - \Psi = \begin{bmatrix} 1-3 & 5-3 & 5-3 & 1-3 \end{bmatrix} = \begin{bmatrix} -2 & 2 & 2 & -2 \end{bmatrix}$$
+
+### Langkah 2: Proyeksikan ke Eigenspace
+$$W_{\text{baru}} = \Phi_{\text{baru}} \cdot u_1^T = \begin{bmatrix} -2 & 2 & 2 & -2 \end{bmatrix} \cdot \begin{bmatrix} 0.5 \\ -0.5 \\ -0.5 \\ 0.5 \end{bmatrix} = -1 - 1 - 1 - 1 = -4$$
+
+### Langkah 3: Hitung Jarak Euclidean dengan Wajah Training
+$$\begin{aligned}
+d(\text{baru}, \Gamma_1) &= |W_{\text{baru}} - W_1| = |-4 - (-2)| = 2 \\
+d(\text{baru}, \Gamma_2) &= |W_{\text{baru}} - W_2| = |-4 - 2| = 6 \\
+d(\text{baru}, \Gamma_3) &= |W_{\text{baru}} - W_3| = |-4 - 0| = 4
+\end{aligned}$$
+
+### Hasil Akhir
+Jarak terkecil adalah $2$ yang merujuk pada **$\Gamma_1$**. Maka, sistem memutuskan bahwa input wajah baru paling mirip dengan **Wajah 1 (Andi)**.

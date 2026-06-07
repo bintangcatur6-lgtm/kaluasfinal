@@ -368,16 +368,17 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengenalan-wajah-dengan-metode-eigenfaces-pca">Pengenalan Wajah dengan Metode Eigenfaces (PCA)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-kerja-algoritma-eigenfaces">Alur Kerja Algoritma Eigenfaces</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data-training">1. Preprocessing Data Training</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-wajah-rata-rata-mean-face">2. Menghitung Wajah Rata-Rata (Mean Face)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-wajah-mencari-deviasi">3. Normalisasi Wajah (Mencari Deviasi)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#membangun-eigenspace-matriks-kovarian-eigenvectors">4. Membangun Eigenspace (Matriks Kovarian &amp; Eigenvectors)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-dan-pencocokan-wajah-baru">5. Proyeksi dan Pencocokan Wajah Baru</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-implementasi-sederhana-dengan-python">Contoh Implementasi Sederhana dengan Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tugas-eigenface-pca">Tugas Eigenface (PCA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-representasi-wajah-vektor-wajah">1. Data Representasi Wajah (Vektor Wajah)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-wajah-rata-rata-mean-face">2. Menghitung Wajah Rata-Rata (Mean Face)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-wajah-mencari-deviasi-phi">3. Normalisasi Wajah (Mencari Deviasi <span class="math notranslate nohighlight">\(\Phi\)</span>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membangun-eigenspace-matriks-kovarian">4. Membangun Eigenspace (Matriks Kovarian)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-wajah-training-menghitung-bobot-weights">5. Proyeksi Wajah Training (Menghitung Bobot / Weights)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengenalan-wajah-baru-testing">6. Pengenalan Wajah Baru (Testing)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-normalisasi-wajah-baru">Langkah 1: Normalisasi Wajah Baru</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-proyeksikan-ke-eigenspace">Langkah 2: Proyeksikan ke Eigenspace</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-jarak-euclidean-dengan-wajah-training">Langkah 3: Hitung Jarak Euclidean dengan Wajah Training</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir">Hasil Akhir</a></li>
 </ul>
 </li>
 </ul>
@@ -393,79 +394,88 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="eigenface">
 <h1>Eigenface<a class="headerlink" href="#eigenface" title="Link to this heading">#</a></h1>
-<section id="pengenalan-wajah-dengan-metode-eigenfaces-pca">
-<h2>Pengenalan Wajah dengan Metode Eigenfaces (PCA)<a class="headerlink" href="#pengenalan-wajah-dengan-metode-eigenfaces-pca" title="Link to this heading">#</a></h2>
-<p>Metode <strong>Eigenfaces</strong> adalah salah satu pendekatan klasik paling populer dalam pengenalan wajah yang berbasis pada teknik statistik bernama <strong>Principal Component Analysis (PCA)</strong>.</p>
-<p>Secara umum, metode ini bekerja dengan cara mereduksi dimensi gambar wajah yang tinggi (ribuan piksel) menjadi ruang dimensi yang lebih rendah yang disebut <strong>Eigenspace</strong> (ruang eigen) tanpa kehilangan karakteristik penting dari wajah tersebut.</p>
-<hr class="docutils" />
-<section id="alur-kerja-algoritma-eigenfaces">
-<h3>Alur Kerja Algoritma Eigenfaces<a class="headerlink" href="#alur-kerja-algoritma-eigenfaces" title="Link to this heading">#</a></h3>
-<p>Proses pengenalan wajah baru melalui alur matematis dan komputasi sebagai berikut:</p>
-<section id="preprocessing-data-training">
-<h4>1. Preprocessing Data Training<a class="headerlink" href="#preprocessing-data-training" title="Link to this heading">#</a></h4>
-<ul class="simple">
-<li><p>Setiap gambar wajah training berukuran <span class="math notranslate nohighlight">\(M \times N\)</span> piksel diubah (<em>flatten</em>) menjadi sebuah vektor satu dimensi berukuran <span class="math notranslate nohighlight">\(D \times 1\)</span>, di mana <span class="math notranslate nohighlight">\(D = M \times N\)</span>.</p></li>
-<li><p>Seluruh vektor wajah digabungkan ke dalam sebuah matriks data wajah.</p></li>
-</ul>
+<section id="tugas-eigenface-pca">
+<h2>Tugas Eigenface (PCA)<a class="headerlink" href="#tugas-eigenface-pca" title="Link to this heading">#</a></h2>
+</section>
+<section id="data-representasi-wajah-vektor-wajah">
+<h2>1. Data Representasi Wajah (Vektor Wajah)<a class="headerlink" href="#data-representasi-wajah-vektor-wajah" title="Link to this heading">#</a></h2>
+<p>Misalkan kita memiliki 3 buah gambar wajah training yang sudah diubah menjadi vektor baris 1D berukuran <span class="math notranslate nohighlight">\(1 \times 4\)</span> piksel (dimensi rendah untuk penyederhanaan kalkulasi):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\Gamma_1 &amp;= \begin{bmatrix} 2 &amp; 4 &amp; 4 &amp; 2 \end{bmatrix} \\
+\Gamma_2 &amp;= \begin{bmatrix} 4 &amp; 2 &amp; 2 &amp; 4 \end{bmatrix} \\
+\Gamma_3 &amp;= \begin{bmatrix} 3 &amp; 3 &amp; 3 &amp; 3 \end{bmatrix}
+\end{aligned}\end{split}\]</div>
 </section>
 <section id="menghitung-wajah-rata-rata-mean-face">
-<h4>2. Menghitung Wajah Rata-Rata (Mean Face)<a class="headerlink" href="#menghitung-wajah-rata-rata-mean-face" title="Link to this heading">#</a></h4>
-<p>Sistem menghitung rata-rata dari seluruh wajah training menggunakan rumus:
-$<span class="math notranslate nohighlight">\(\Psi = \frac{1}{M} \sum_{i=1}^{M} \Gamma_i\)</span>$</p>
-<p>Di mana <span class="math notranslate nohighlight">\(\Gamma_i\)</span> adalah vektor wajah ke-<span class="math notranslate nohighlight">\(i\)</span>, dan <span class="math notranslate nohighlight">\(M\)</span> adalah total gambar training.</p>
+<h2>2. Menghitung Wajah Rata-Rata (Mean Face)<a class="headerlink" href="#menghitung-wajah-rata-rata-mean-face" title="Link to this heading">#</a></h2>
+<p>Wajah rata-rata (<span class="math notranslate nohighlight">\(\Psi\)</span>) dihitung dengan menjumlahkan seluruh vektor wajah lalu dibagi dengan jumlah sampel (<span class="math notranslate nohighlight">\(M=3\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\Psi = \frac{1}{3} \sum_{i=1}^{3} \Gamma_i\]</div>
+<div class="math notranslate nohighlight">
+\[\Psi = \frac{1}{3} \left( \begin{bmatrix} 2 &amp; 4 &amp; 4 &amp; 2 \end{bmatrix} + \begin{bmatrix} 4 &amp; 2 &amp; 2 &amp; 4 \end{bmatrix} + \begin{bmatrix} 3 &amp; 3 &amp; 3 &amp; 3 \end{bmatrix} \right)\]</div>
+<div class="math notranslate nohighlight">
+\[\Psi = \begin{bmatrix} 3 &amp; 3 &amp; 3 &amp; 3 \end{bmatrix}\]</div>
 </section>
-<section id="normalisasi-wajah-mencari-deviasi">
-<h4>3. Normalisasi Wajah (Mencari Deviasi)<a class="headerlink" href="#normalisasi-wajah-mencari-deviasi" title="Link to this heading">#</a></h4>
-<p>Setiap wajah training dikurangi dengan wajah rata-rata untuk menyisakan fitur-fitur pembeda yang unik saja:
-$<span class="math notranslate nohighlight">\(\Phi_i = \Gamma_i - \Psi\)</span>$</p>
+<section id="normalisasi-wajah-mencari-deviasi-phi">
+<h2>3. Normalisasi Wajah (Mencari Deviasi <span class="math notranslate nohighlight">\(\Phi\)</span>)<a class="headerlink" href="#normalisasi-wajah-mencari-deviasi-phi" title="Link to this heading">#</a></h2>
+<p>Setiap wajah dikurangi dengan wajah rata-rata (<span class="math notranslate nohighlight">\(\Phi_i = \Gamma_i - \Psi\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\Phi_1 &amp;= \begin{bmatrix} 2-3 &amp; 4-3 &amp; 4-3 &amp; 2-3 \end{bmatrix} = \begin{bmatrix} -1 &amp; 1 &amp; 1 &amp; -1 \end{bmatrix} \\
+\Phi_2 &amp;= \begin{bmatrix} 4-3 &amp; 2-3 &amp; 2-3 &amp; 4-3 \end{bmatrix} = \begin{bmatrix} 1 &amp; -1 &amp; -1 &amp; 1 \end{bmatrix} \\
+\Phi_3 &amp;= \begin{bmatrix} 3-3 &amp; 3-3 &amp; 3-3 &amp; 3-3 \end{bmatrix} = \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix}
+\end{aligned}\end{split}\]</div>
+<p>Matriks Deviasi Total (<span class="math notranslate nohighlight">\(A\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \begin{bmatrix} \Phi_1 \\ \Phi_2 \\ \Phi_3 \end{bmatrix} = \begin{bmatrix} -1 &amp; 1 &amp; 1 &amp; -1 \\ 1 &amp; -1 &amp; -1 &amp; 1 \\ 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix}\end{split}\]</div>
 </section>
-<section id="membangun-eigenspace-matriks-kovarian-eigenvectors">
-<h4>4. Membangun Eigenspace (Matriks Kovarian &amp; Eigenvectors)<a class="headerlink" href="#membangun-eigenspace-matriks-kovarian-eigenvectors" title="Link to this heading">#</a></h4>
-<ul class="simple">
-<li><p>Menghitung matriks kovarian dari data yang telah dinormalisasi untuk melihat korelasi antar piksel.</p></li>
-<li><p>Dari matriks kovarian tersebut, dicari nilai eigen (<em>eigenvalues</em>) dan vektor eigen (<em>eigenvectors</em>).</p></li>
-<li><p>Vektor eigen yang memiliki nilai varians terbesar dipilih sebagai komponen utama. Vektor inilah yang disebut sebagai <strong>Eigenfaces</strong> (Wajah Eigen).</p></li>
-</ul>
+<section id="membangun-eigenspace-matriks-kovarian">
+<h2>4. Membangun Eigenspace (Matriks Kovarian)<a class="headerlink" href="#membangun-eigenspace-matriks-kovarian" title="Link to this heading">#</a></h2>
+<p>Matriks Kovarian (<span class="math notranslate nohighlight">\(C\)</span>) dihitung melalui rumus <span class="math notranslate nohighlight">\(C = A^T \cdot A\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}C = \begin{bmatrix} -1 &amp; 1 &amp; 0 \\ 1 &amp; -1 &amp; 0 \\ 1 &amp; -1 &amp; 0 \\ -1 &amp; 1 &amp; 0 \end{bmatrix} \begin{bmatrix} -1 &amp; 1 &amp; 1 &amp; -1 \\ 1 &amp; -1 &amp; -1 &amp; 1 \\ 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix} = \begin{bmatrix} 2 &amp; -2 &amp; -2 &amp; 2 \\ -2 &amp; 2 &amp; 2 &amp; -2 \\ -2 &amp; 2 &amp; 2 &amp; -2 \\ 2 &amp; -2 &amp; -2 &amp; 2 \end{bmatrix}\end{split}\]</div>
+<p>Dari matriks <span class="math notranslate nohighlight">\(C\)</span> di atas, diperoleh Vektor Eigen Utama (Eigenface) setelah dinormalisasi:</p>
+<div class="math notranslate nohighlight">
+\[u_1 = \begin{bmatrix} 0.5 &amp; -0.5 &amp; -0.5 &amp; 0.5 \end{bmatrix}\]</div>
 </section>
-<section id="proyeksi-dan-pencocokan-wajah-baru">
-<h4>5. Proyeksi dan Pencocokan Wajah Baru<a class="headerlink" href="#proyeksi-dan-pencocokan-wajah-baru" title="Link to this heading">#</a></h4>
-<p>Ketika ada input wajah baru (<span class="math notranslate nohighlight">\(\Gamma_{\text{baru}}\)</span>) masuk ke sistem:</p>
-<ol class="arabic simple">
-<li><p><strong>Normalisasi:</strong> Wajah baru dikurangi wajah rata-rata training <span class="math notranslate nohighlight">\(\Phi_{\text{baru}} = \Gamma_{\text{baru}} - \Psi\)</span>.</p></li>
-<li><p><strong>Proyeksi:</strong> Vektor <span class="math notranslate nohighlight">\(\Phi_{\text{baru}}\)</span> dikalikan dengan matriks Eigenfaces untuk mendapatkan bobot atau koordinatnya di dalam <em>Eigenspace</em>.</p></li>
-<li><p><strong>Pencocokan:</strong> Koordinat wajah baru ini dibandingkan dengan seluruh koordinat wajah training menggunakan perhitungan jarak <strong>Euclidean Distance</strong>.</p></li>
-<li><p><strong>Hasil:</strong> Wajah training yang memiliki jarak paling dekat (<em>minimum distance</em>) dinyatakan sebagai identitas orang yang paling mirip.</p></li>
-</ol>
+<section id="proyeksi-wajah-training-menghitung-bobot-weights">
+<h2>5. Proyeksi Wajah Training (Menghitung Bobot / Weights)<a class="headerlink" href="#proyeksi-wajah-training-menghitung-bobot-weights" title="Link to this heading">#</a></h2>
+<p>Setiap wajah training diproyeksikan ke Eigenface (<span class="math notranslate nohighlight">\(u_1\)</span>) untuk mendapatkan bobot (<span class="math notranslate nohighlight">\(W_i = \Phi_i \cdot u_1^T\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+W_1 &amp;= \begin{bmatrix} -1 &amp; 1 &amp; 1 &amp; -1 \end{bmatrix} \cdot \begin{bmatrix} 0.5 \\ -0.5 \\ -0.5 \\ 0.5 \end{bmatrix} = (-0.5) + (-0.5) + (-0.5) + (-0.5) = -2 \\
+W_2 &amp;= \begin{bmatrix} 1 &amp; -1 &amp; -1 &amp; 1 \end{bmatrix} \cdot \begin{bmatrix} 0.5 \\ -0.5 \\ -0.5 \\ 0.5 \end{bmatrix} = 0.5 + 0.5 + 0.5 + 0.5 = 2 \\
+W_3 &amp;= \begin{bmatrix} 0 &amp; 0 &amp; 0 &amp; 0 \end{bmatrix} \cdot \begin{bmatrix} 0.5 \\ -0.5 \\ -0.5 \\ 0.5 \end{bmatrix} = 0
+\end{aligned}\end{split}\]</div>
 </section>
+<section id="pengenalan-wajah-baru-testing">
+<h2>6. Pengenalan Wajah Baru (Testing)<a class="headerlink" href="#pengenalan-wajah-baru-testing" title="Link to this heading">#</a></h2>
+<p>Misalkan ada input gambar wajah baru:</p>
+<div class="math notranslate nohighlight">
+\[\Gamma_{\text{baru}} = \begin{bmatrix} 1 &amp; 5 &amp; 5 &amp; 1 \end{bmatrix}\]</div>
+<section id="langkah-1-normalisasi-wajah-baru">
+<h3>Langkah 1: Normalisasi Wajah Baru<a class="headerlink" href="#langkah-1-normalisasi-wajah-baru" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\Phi_{\text{baru}} = \Gamma_{\text{baru}} - \Psi = \begin{bmatrix} 1-3 &amp; 5-3 &amp; 5-3 &amp; 1-3 \end{bmatrix} = \begin{bmatrix} -2 &amp; 2 &amp; 2 &amp; -2 \end{bmatrix}\]</div>
 </section>
-<hr class="docutils" />
-<section id="contoh-implementasi-sederhana-dengan-python">
-<h3>Contoh Implementasi Sederhana dengan Python<a class="headerlink" href="#contoh-implementasi-sederhana-dengan-python" title="Link to this heading">#</a></h3>
-<p>Jika Anda ingin mencoba simulasinya menggunakan Python (bisa diterapkan pada file <code class="docutils literal notranslate"><span class="pre">notebooks.ipynb</span></code>), berikut adalah potongan kode dasarnya:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics.pairwise</span><span class="w"> </span><span class="kn">import</span> <span class="n">euclidean_distances</span>
-
-<span class="c1"># 1. Simulasi Data Gambar Wajah (Ukuran 100x100 piksel = 10.000 fitur)</span>
-<span class="c1"># Misal ada 3 sampel wajah training</span>
-<span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span> 
-<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Andi&quot;</span><span class="p">,</span> <span class="s2">&quot;Budi&quot;</span><span class="p">,</span> <span class="s2">&quot;Cici&quot;</span><span class="p">]</span>
-
-<span class="c1"># 2. Proses Training: Membangun Eigenspace dengan PCA</span>
-<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">whiten</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-<span class="n">X_train_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span> <span class="c1"># Bobot training</span>
-
-<span class="c1"># 3. Proses Testing: Input wajah baru</span>
-<span class="n">X_new_face</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
-<span class="n">X_new_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_new_face</span><span class="p">)</span> <span class="c1"># Proyeksi ke Eigenspace</span>
-
-<span class="c1"># 4. Hitung Jarak Terdekat (Euclidean Distance)</span>
-<span class="n">distances</span> <span class="o">=</span> <span class="n">euclidean_distances</span><span class="p">(</span><span class="n">X_new_pca</span><span class="p">,</span> <span class="n">X_train_pca</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">idx_terdekat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Wajah baru paling mirip dengan: </span><span class="si">{</span><span class="n">labels</span><span class="p">[</span><span class="n">idx_terdekat</span><span class="p">]</span><span class="si">}</span><span class="s2"> (Jarak: </span><span class="si">{</span><span class="n">distances</span><span class="p">[</span><span class="n">idx_terdekat</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
+<section id="langkah-2-proyeksikan-ke-eigenspace">
+<h3>Langkah 2: Proyeksikan ke Eigenspace<a class="headerlink" href="#langkah-2-proyeksikan-ke-eigenspace" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}W_{\text{baru}} = \Phi_{\text{baru}} \cdot u_1^T = \begin{bmatrix} -2 &amp; 2 &amp; 2 &amp; -2 \end{bmatrix} \cdot \begin{bmatrix} 0.5 \\ -0.5 \\ -0.5 \\ 0.5 \end{bmatrix} = -1 - 1 - 1 - 1 = -4\end{split}\]</div>
+</section>
+<section id="langkah-3-hitung-jarak-euclidean-dengan-wajah-training">
+<h3>Langkah 3: Hitung Jarak Euclidean dengan Wajah Training<a class="headerlink" href="#langkah-3-hitung-jarak-euclidean-dengan-wajah-training" title="Link to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+d(\text{baru}, \Gamma_1) &amp;= |W_{\text{baru}} - W_1| = |-4 - (-2)| = 2 \\
+d(\text{baru}, \Gamma_2) &amp;= |W_{\text{baru}} - W_2| = |-4 - 2| = 6 \\
+d(\text{baru}, \Gamma_3) &amp;= |W_{\text{baru}} - W_3| = |-4 - 0| = 4
+\end{aligned}\end{split}\]</div>
+</section>
+<section id="hasil-akhir">
+<h3>Hasil Akhir<a class="headerlink" href="#hasil-akhir" title="Link to this heading">#</a></h3>
+<p>Jarak terkecil adalah <span class="math notranslate nohighlight">\(2\)</span> yang merujuk pada <strong><span class="math notranslate nohighlight">\(\Gamma_1\)</span></strong>. Maka, sistem memutuskan bahwa input wajah baru paling mirip dengan <strong>Wajah 1 (Andi)</strong>.</p>
 </section>
 </section>
 </section>
@@ -527,16 +537,17 @@ $<span class="math notranslate nohighlight">\(\Phi_i = \Gamma_i - \Psi\)</span>$
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengenalan-wajah-dengan-metode-eigenfaces-pca">Pengenalan Wajah dengan Metode Eigenfaces (PCA)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-kerja-algoritma-eigenfaces">Alur Kerja Algoritma Eigenfaces</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing-data-training">1. Preprocessing Data Training</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-wajah-rata-rata-mean-face">2. Menghitung Wajah Rata-Rata (Mean Face)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-wajah-mencari-deviasi">3. Normalisasi Wajah (Mencari Deviasi)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#membangun-eigenspace-matriks-kovarian-eigenvectors">4. Membangun Eigenspace (Matriks Kovarian &amp; Eigenvectors)</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-dan-pencocokan-wajah-baru">5. Proyeksi dan Pencocokan Wajah Baru</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-implementasi-sederhana-dengan-python">Contoh Implementasi Sederhana dengan Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tugas-eigenface-pca">Tugas Eigenface (PCA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-representasi-wajah-vektor-wajah">1. Data Representasi Wajah (Vektor Wajah)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#menghitung-wajah-rata-rata-mean-face">2. Menghitung Wajah Rata-Rata (Mean Face)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-wajah-mencari-deviasi-phi">3. Normalisasi Wajah (Mencari Deviasi <span class="math notranslate nohighlight">\(\Phi\)</span>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membangun-eigenspace-matriks-kovarian">4. Membangun Eigenspace (Matriks Kovarian)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-wajah-training-menghitung-bobot-weights">5. Proyeksi Wajah Training (Menghitung Bobot / Weights)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pengenalan-wajah-baru-testing">6. Pengenalan Wajah Baru (Testing)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-normalisasi-wajah-baru">Langkah 1: Normalisasi Wajah Baru</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-proyeksikan-ke-eigenspace">Langkah 2: Proyeksikan ke Eigenspace</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hitung-jarak-euclidean-dengan-wajah-training">Langkah 3: Hitung Jarak Euclidean dengan Wajah Training</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir">Hasil Akhir</a></li>
 </ul>
 </li>
 </ul>
