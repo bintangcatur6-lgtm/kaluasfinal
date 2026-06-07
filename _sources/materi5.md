@@ -75,54 +75,45 @@ d(\text{baru}, \Gamma_2) &= |W_{\text{baru}} - W_2| = |-4 - 2| = 6 \\
 d(\text{baru}, \Gamma_3) &= |W_{\text{baru}} - W_3| = |-4 - 0| = 4
 \end{aligned}$$
 
-## 7. Visualisasi Hasil Gambar Wajah
+### 7. Visualisasi Hasil Gambar Wajah (Skala Piksel)
 
-Untuk melihat bagaimana representasi matriks angka di atas jika diubah menjadi visualisasi gambar grayscale (skala abu-abu), kita dapat menggunakan kode Python berikut (bisa dijalankan di `notebooks.ipynb` atau skrip lokal):
+Berikut adalah representasi visual dari setiap wajah berdasarkan nilai intensitas pikselnya (semakin kecil nilainya semakin gelap, semakin besar nilainya semakin terang):
 
-```python
-import numpy as np
-import matplotlib.pyplot as plt
+### Data Wajah Training
+| Wajah 1 ($\Gamma_1$) | Wajah 2 ($\Gamma_2$) | Wajah 3 ($\Gamma_3$) |
+| :---: | :---: | :---: |
+| ⬛ ⬜<br>⬜ ⬛ | ⬜ ⬛<br>⬛ ⬜ | ⬜ ⬜<br>⬜ ⬜ |
+| $\begin{bmatrix} 2 & 4 \\ 4 & 2 \end{bmatrix}$ | $\begin{bmatrix} 4 & 2 \\ 2 & 4 \end{bmatrix}$ | $\begin{bmatrix} 3 & 3 \\ 3 & 3 \end{bmatrix}$ |
 
-# 1. Definisikan ulang matriks wajah (di-reshape dari 1x4 menjadi 2x2)
-wajah_1 = np.array([[2, 4], [4, 2]])
-wajah_2 = np.array([[4, 2], [2, 4]])
-wajah_3 = np.array([[3, 3], [3, 3]])
-wajah_baru = np.array([[1, 5], [5, 1]])
-mean_face = np.array([[3, 3], [3, 3]])
-eigenface = np.array([[0.5, -0.5], [-0.5, 0.5]])
+---
 
-# 2. Setup Plot Visualisasi
-fig, axes = plt.subplots(2, 3, figsize=(10, 6))
-fig.suptitle('Visualisasi Grid Wajah (2x2 Piksel)', fontsize=14, fontweight='bold')
+### Wajah Rata-Rata & Fitur Eigenface
+| Wajah Rata-Rata ($\Psi$) | Eigenface ($u_1$) |
+| :---: | :---: |
+| ⬜ ⬜<br>⬜ ⬜ | 🟥 🟦<br>🟦 🟥 |
+| $\begin{bmatrix} 3 & 3 \\ 3 & 3 \end{bmatrix}$ | $\begin{bmatrix} 0.5 & -0.5 \\ -0.5 & 0.5 \end{bmatrix}$ |
 
-# Wajah Training
-axes[0, 0].imshow(wajah_1, cmap='gray', vmin=0, vmax=5)
-axes[0, 0].set_title('Wajah 1 ($\Gamma_1$)')
-axes[0, 0].axis('off')
+*Catatan untuk Eigenface ($u_1$): Warna merah (🟥) merepresentasikan nilai positif dan warna biru (🟦) merepresentasikan nilai negatif sebagai komponen fitur pembeda utama.*
 
-axes[0, 1].imshow(wajah_2, cmap='gray', vmin=0, vmax=5)
-axes[0, 1].set_title('Wajah 2 ($\Gamma_2$)')
-axes[0, 1].axis('off')
+---
 
-axes[0, 2].imshow(wajah_3, cmap='gray', vmin=0, vmax=5)
-axes[0, 2].set_title('Wajah 3 ($\Gamma_3$)')
-axes[0, 2].axis('off')
+### Data Uji (Input Wajah Baru)
+| Wajah Baru (Input) | Hasil Identifikasi |
+| :---: | :---: |
+| ⬛ ⬜<br>⬜ ⬛ | **Mirip Wajah 1** |
+| $\begin{bmatrix} 1 & 5 \\ 5 & 1 \end{bmatrix}$ | Karena memiliki kemiripan pola gelap-terang yang sama secara diagonal. |
 
-# Fitur dan Testing
-axes[1, 0].imshow(mean_face, cmap='gray', vmin=0, vmax=5)
-axes[1, 0].set_title('Wajah Rata-rata ($\Psi$)')
-axes[1, 0].axis('off')
+### Analisis Geometri Eigenspace
+Jika kita plot bobot (*weights*) setiap wajah ke dalam garis bilangan 1-Dimensi Eigenspace, posisinya adalah sebagai berikut:
 
-axes[1, 1].imshow(eigenface, cmap='coolwarm') # Menggunakan coolwarm untuk melihat nilai negatif/positif
-axes[1, 1].set_title('Eigenface ($u_1$)')
-axes[1, 1].axis('off')
-
-axes[1, 2].imshow(wajah_baru, cmap='gray', vmin=0, vmax=5)
-axes[1, 2].set_title('Wajah Baru (Input)')
-axes[1, 2].axis('off')
-
-plt.tight_layout()
-plt.show()
-
+```text
+  Wajah Baru          Wajah 1           Wajah 3           Wajah 2
+   ( W_new )          ( W_1 )           ( W_3 )           ( W_2 )
+       |                 |                 |                 |
+<------|-----------------|-----------------|-----------------|------>
+      -4                -2                 0                 2
+       \_______ ________/
+               V
+         Jarak Terdekat (d = 2)
 ### Kesimpulan Akhir
 Berdasarkan nilai jarak terkecil ($d = 2$), sistem memutuskan bahwa input wajah baru memiliki kemiripan paling dekat dengan **Wajah Training 1 ($\Gamma_1$)**.
