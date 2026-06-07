@@ -1,6 +1,6 @@
 # Eigenface
 
-## ## Pengenalan Wajah dengan Metode Eigenfaces (PCA)
+## Pengenalan Wajah dengan Metode Eigenfaces (PCA)
 
 Metode **Eigenfaces** adalah salah satu pendekatan klasik paling populer dalam pengenalan wajah yang berbasis pada teknik statistik bernama **Principal Component Analysis (PCA)**. 
 
