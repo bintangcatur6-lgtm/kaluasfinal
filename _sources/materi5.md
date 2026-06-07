@@ -75,5 +75,54 @@ d(\text{baru}, \Gamma_2) &= |W_{\text{baru}} - W_2| = |-4 - 2| = 6 \\
 d(\text{baru}, \Gamma_3) &= |W_{\text{baru}} - W_3| = |-4 - 0| = 4
 \end{aligned}$$
 
+## 7. Visualisasi Hasil Gambar Wajah
+
+Untuk melihat bagaimana representasi matriks angka di atas jika diubah menjadi visualisasi gambar grayscale (skala abu-abu), kita dapat menggunakan kode Python berikut (bisa dijalankan di `notebooks.ipynb` atau skrip lokal):
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 1. Definisikan ulang matriks wajah (di-reshape dari 1x4 menjadi 2x2)
+wajah_1 = np.array([[2, 4], [4, 2]])
+wajah_2 = np.array([[4, 2], [2, 4]])
+wajah_3 = np.array([[3, 3], [3, 3]])
+wajah_baru = np.array([[1, 5], [5, 1]])
+mean_face = np.array([[3, 3], [3, 3]])
+eigenface = np.array([[0.5, -0.5], [-0.5, 0.5]])
+
+# 2. Setup Plot Visualisasi
+fig, axes = plt.subplots(2, 3, figsize=(10, 6))
+fig.suptitle('Visualisasi Grid Wajah (2x2 Piksel)', fontsize=14, fontweight='bold')
+
+# Wajah Training
+axes[0, 0].imshow(wajah_1, cmap='gray', vmin=0, vmax=5)
+axes[0, 0].set_title('Wajah 1 ($\Gamma_1$)')
+axes[0, 0].axis('off')
+
+axes[0, 1].imshow(wajah_2, cmap='gray', vmin=0, vmax=5)
+axes[0, 1].set_title('Wajah 2 ($\Gamma_2$)')
+axes[0, 1].axis('off')
+
+axes[0, 2].imshow(wajah_3, cmap='gray', vmin=0, vmax=5)
+axes[0, 2].set_title('Wajah 3 ($\Gamma_3$)')
+axes[0, 2].axis('off')
+
+# Fitur dan Testing
+axes[1, 0].imshow(mean_face, cmap='gray', vmin=0, vmax=5)
+axes[1, 0].set_title('Wajah Rata-rata ($\Psi$)')
+axes[1, 0].axis('off')
+
+axes[1, 1].imshow(eigenface, cmap='coolwarm') # Menggunakan coolwarm untuk melihat nilai negatif/positif
+axes[1, 1].set_title('Eigenface ($u_1$)')
+axes[1, 1].axis('off')
+
+axes[1, 2].imshow(wajah_baru, cmap='gray', vmin=0, vmax=5)
+axes[1, 2].set_title('Wajah Baru (Input)')
+axes[1, 2].axis('off')
+
+plt.tight_layout()
+plt.show()
+
 ### Kesimpulan Akhir
 Berdasarkan nilai jarak terkecil ($d = 2$), sistem memutuskan bahwa input wajah baru memiliki kemiripan paling dekat dengan **Wajah Training 1 ($\Gamma_1$)**.
