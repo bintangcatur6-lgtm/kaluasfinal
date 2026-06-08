@@ -108,12 +108,25 @@ Jika kita plot bobot (*weights*) setiap wajah ke dalam garis bilangan 1-Dimensi 
 
 ```text
   Wajah Baru          Wajah 1           Wajah 3           Wajah 2
-   ( W_new )          ( W_1 )           ( W_3 )           ( W_2 )
+   ( W_new )          ( W_1 )           ( W_3 )           ( W_2 )![alt text](<wajah baru.jpg>)
        |                 |                 |                 |
 <------|-----------------|-----------------|-----------------|------>
       -4                -2                 0                 2
        \_______ ________/
                V
          Jarak Terdekat (d = 2)
+
+## 7. Visualisasi Hasil Gambar Wajah
+
+Berikut adalah perbandingan visual antara data wajah training yang ada di dalam database dengan input wajah baru yang dimasukkan ke dalam sistem:
+
+| Wajah Training 1 ($\Gamma_1$) | Input Wajah Baru ($\Gamma_{\text{baru}}$) |
+| :---: | :---: |
+| ![Wajah Training](wajah training.jpg) | ![Wajah Baru](wajah baru.jpg) |
+| **Database Sistem** | **Wajah Baru yang Diuji** |
+
+### Kesimpulan Analisis
+Berdasarkan hasil proyeksi ke dalam *eigenspace*, vektor karakteristik dari **Wajah Baru** memiliki kecenderungan pola fitur yang sangat identik dengan **Wajah Training 1**. Melalui pembuktian jarak Euclidean terkecil ($d = 2$), sistem secara akurat mengenali bahwa input wajah baru tersebut adalah orang yang sama dengan Wajah Training 1.
+
 ### Kesimpulan Akhir
 Berdasarkan nilai jarak terkecil ($d = 2$), sistem memutuskan bahwa input wajah baru memiliki kemiripan paling dekat dengan **Wajah Training 1 ($\Gamma_1$)**.
