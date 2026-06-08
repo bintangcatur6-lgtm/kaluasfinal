@@ -1,0 +1,3 @@
+# introduction 
+
+## "Saya adalah mahasiswa Teknik Informatika di Universitas Trunojoyo Madura yang memiliki dedikasi tinggi dalam mempelajari pengembangan perangkat lunak dan analisis data. Memiliki latar belakang teknis dalam beberapa bahasa pemrograman dan berpengalaman dalam mengelola proyek dokumentasi berbasis digital. Saya adalah individu yang adaptif, fokus pada detail, dan memiliki visi untuk terus berkembang di industri teknologi"
