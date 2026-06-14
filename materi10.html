@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Tugas Eliminasi Gauss &#8212; Catur Bintang Prastyo 25-165</title>
+    <title>TUGAS UTS Determinan &#8212; Catur Bintang Prastyo 25-165</title>
   
   
   
@@ -62,11 +62,10 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'materi4';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'materi10';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Tugas Eigenface (PCA)" href="materi5.html" />
-    <link rel="prev" title="Evaluasi Determinan Dan Invers" href="materi3.html" />
+    <link rel="prev" title="PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’" href="materi9.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -175,7 +174,7 @@
 <li class="toctree-l1"><a class="reference internal" href="materi1.html">Tugas ELiminasi</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materi2.html">Tugas Transformasi sumbu Y menggunakan Translasi dan pencerminan</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materi3.html">Evaluasi Determinan Dan Invers</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas Eliminasi Gauss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi4.html">Tugas Eliminasi Gauss</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materi5.html">Tugas Eigenface (PCA)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materi6.html">Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materi8.html">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</a></li>
@@ -196,7 +195,7 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="materi10.html">TUGAS UTS Determinan</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">TUGAS UTS Determinan</a></li>
 </ul>
 
     </div>
@@ -273,7 +272,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmateri4.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmateri10.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -303,7 +302,7 @@
       
       
       
-      <li><a href="_sources/materi4.md" target="_blank"
+      <li><a href="_sources/materi10.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -379,7 +378,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tugas Eliminasi Gauss</h1>
+    <h1>TUGAS UTS Determinan</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -389,17 +388,24 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"># Tugas Eliminasi Gauss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sistem-persamaan-linear-spl">1. Sistem Persamaan Linear (SPL)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-augmented">2. Matriks Augmented</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminasi-gauss-obe">3. Eliminasi Gauss (OBE)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1">Langkah 1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2">Langkah 2</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3">Langkah 3</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4">Langkah 4</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5">Langkah 5</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6">Langkah 6</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir">Hasil Akhir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-a">1. Matriks A</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#determinan-matriks-55">2. Determinan Matriks 5×5</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-adjoin-adj-a">3. Matriks Adjoin (adj A)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#invers-matriks">4. Invers Matriks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#syarat-invers">5. Syarat Invers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-perhitungan-determinannya-dari-eliminasi-gauss">6.Bentuk Perhitungan determinannya dari eliminasi gauss</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. Matriks A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#determinan-matriks-dengan-penjelasan">2. Determinan Matriks (dengan penjelasan)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mencari-invers-dengan-eliminasi-gauss-jordan">3. Mencari Invers dengan Eliminasi Gauss-Jordan</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-hilangkan-elemen-di-bawah-pivot-kolom-1">Langkah 1: Hilangkan elemen di bawah pivot kolom 1</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-hilangkan-elemen-di-bawah-pivot-kolom-2">Langkah 2: Hilangkan elemen di bawah pivot kolom 2</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hilangkan-elemen-di-bawah-pivot-kolom-3">Langkah 3: Hilangkan elemen di bawah pivot kolom 3</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hilangkan-elemen-di-bawah-pivot-kolom-4">Langkah 4: Hilangkan elemen di bawah pivot kolom 4</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-invers">4. Hasil Invers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-adjoin">5. Matriks Adjoin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jawaban-akhir-ringkas">6. Jawaban Akhir (Ringkas)</a></li>
 </ul>
 </li>
 </ul>
@@ -413,163 +419,224 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="tugas-eliminasi-gauss">
-<h1>Tugas Eliminasi Gauss<a class="headerlink" href="#tugas-eliminasi-gauss" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="tugas-uts-determinan">
+<h1>TUGAS UTS Determinan<a class="headerlink" href="#tugas-uts-determinan" title="Link to this heading">#</a></h1>
+<section id="matriks-a">
+<h2>1. Matriks A<a class="headerlink" href="#matriks-a" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+A =
+\begin{bmatrix}
+a &amp; b &amp; c &amp; d &amp; e \\
+f &amp; g &amp; h &amp; i &amp; j \\
+k &amp; l &amp; m &amp; n &amp; o \\
+p &amp; q &amp; r &amp; s &amp; t \\
+u &amp; v &amp; w &amp; x &amp; y
+\end{bmatrix}
+\end{split}\]</div>
+</section>
+<section id="determinan-matriks-55">
+<h2>2. Determinan Matriks 5×5<a class="headerlink" href="#determinan-matriks-55" title="Link to this heading">#</a></h2>
+<p>Menggunakan ekspansi kofaktor pada baris pertama:</p>
+<div class="math notranslate nohighlight">
+\[
+\det(A) = aC_{11} - bC_{12} + cC_{13} - dC_{14} + eC_{15}
+\]</div>
+<p>Dengan:</p>
+<div class="math notranslate nohighlight">
+\[
+C_{ij} = (-1)^{i+j} \, M_{ij}
+\]</div>
+</section>
+<section id="matriks-adjoin-adj-a">
+<h2>3. Matriks Adjoin (adj A)<a class="headerlink" href="#matriks-adjoin-adj-a" title="Link to this heading">#</a></h2>
+<p>adj(A) = transpose dari matriks kofaktor</p>
+<p>Bentuk matriksnya:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\text{adj}(A) =
+\begin{bmatrix}
+C_{11} &amp; C_{21} &amp; C_{31} &amp; C_{41} &amp; C_{51} \\
+C_{12} &amp; C_{22} &amp; C_{32} &amp; C_{42} &amp; C_{52} \\
+C_{13} &amp; C_{23} &amp; C_{33} &amp; C_{43} &amp; C_{53} \\
+C_{14} &amp; C_{24} &amp; C_{34} &amp; C_{44} &amp; C_{54} \\
+C_{15} &amp; C_{25} &amp; C_{35} &amp; C_{45} &amp; C_{55}
+\end{bmatrix}
+\end{split}\]</div>
+</section>
+<section id="invers-matriks">
+<h2>4. Invers Matriks<a class="headerlink" href="#invers-matriks" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[
+A^{-1} = \frac{1}{\det(A)} \, \text{adj}(A)
+\]</div>
+</section>
+<section id="syarat-invers">
+<h2>5. Syarat Invers<a class="headerlink" href="#syarat-invers" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[
+\det(A) \neq 0
+\]</div>
+<p>Jika: det(A) = 0 → A tidak memiliki invers</p>
+</section>
+<section id="bentuk-perhitungan-determinannya-dari-eliminasi-gauss">
+<h2>6.Bentuk Perhitungan determinannya dari eliminasi gauss<a class="headerlink" href="#bentuk-perhitungan-determinannya-dari-eliminasi-gauss" title="Link to this heading">#</a></h2>
 <section id="id1">
-<h2># Tugas Eliminasi Gauss<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<h3>1. Matriks A<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Diketahui matriks:
+<span class="math notranslate nohighlight">\(
+A =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 3 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 4 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 5 &amp; 1
+\end{bmatrix}
+\)</span></p>
+<p>Matriks di atas merupakan matriks segitiga bawah (lower triangular),
+karena semua elemen di atas diagonal utama bernilai nol.</p>
 </section>
-<section id="sistem-persamaan-linear-spl">
-<h2>1. Sistem Persamaan Linear (SPL)<a class="headerlink" href="#sistem-persamaan-linear-spl" title="Link to this heading">#</a></h2>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-x_1 + x_2 + x_3 + x_4 + x_5 &amp;= 15 \\
-2x_1 + x_2 + x_3 + x_4 + x_5 &amp;= 16 \\
-2x_1 + 2x_2 + x_3 + x_4 + x_5 &amp;= 18 \\
-2x_1 + 2x_2 + 2x_3 + x_4 + x_5 &amp;= 21 \\
-2x_1 + 2x_2 + 2x_3 + 2x_4 + x_5 &amp;= 25
-\end{aligned}\end{split}\]</div>
+<section id="determinan-matriks-dengan-penjelasan">
+<h3>2. Determinan Matriks (dengan penjelasan)<a class="headerlink" href="#determinan-matriks-dengan-penjelasan" title="Link to this heading">#</a></h3>
+<p>Diketahui:
+<span class="math notranslate nohighlight">\(
+A =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 3 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 4 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 5 &amp; 1
+\end{bmatrix}
+\)</span></p>
+<p>Karena matriks merupakan matriks segitiga bawah, maka determinannya adalah hasil kali elemen diagonal utama:</p>
 </section>
-<section id="matriks-augmented">
-<h2>2. Matriks Augmented<a class="headerlink" href="#matriks-augmented" title="Link to this heading">#</a></h2>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 15 \\
-2 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 16 \\
-2 &amp; 2 &amp; 1 &amp; 1 &amp; 1 &amp; 18 \\
-2 &amp; 2 &amp; 2 &amp; 1 &amp; 1 &amp; 21 \\
-2 &amp; 2 &amp; 2 &amp; 2 &amp; 1 &amp; 25
+<section id="mencari-invers-dengan-eliminasi-gauss-jordan">
+<h3>3. Mencari Invers dengan Eliminasi Gauss-Jordan<a class="headerlink" href="#mencari-invers-dengan-eliminasi-gauss-jordan" title="Link to this heading">#</a></h3>
+<p>Gabungkan matriks A dengan matriks identitas:</p>
+<p><span class="math notranslate nohighlight">\(\Rightarrow
+\left[
+\begin{array}{ccccc|ccccc}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; -2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 3 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 4 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 5 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1
 \end{array}
-\right]\end{split}\]</div>
+\right]\)</span></p>
+<section id="langkah-1-hilangkan-elemen-di-bawah-pivot-kolom-1">
+<h4>Langkah 1: Hilangkan elemen di bawah pivot kolom 1<a class="headerlink" href="#langkah-1-hilangkan-elemen-di-bawah-pivot-kolom-1" title="Link to this heading">#</a></h4>
+<p><span class="math notranslate nohighlight">\(
+R_2 \leftarrow R_2 - 2R_1
+\)</span></p>
+<p><span class="math notranslate nohighlight">\(\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; -2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 3 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 4 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 5 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}\)</span></p>
 </section>
-<section id="eliminasi-gauss-obe">
-<h2>3. Eliminasi Gauss (OBE)<a class="headerlink" href="#eliminasi-gauss-obe" title="Link to this heading">#</a></h2>
-<section id="langkah-1">
-<h3>Langkah 1<a class="headerlink" href="#langkah-1" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di bawah pivot pertama</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_2 &amp;= R_2 - 2R_1 \\
-R_3 &amp;= R_3 - 2R_1 \\
-R_4 &amp;= R_4 - 2R_1 \\
-R_5 &amp;= R_5 - 2R_1
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 15 \\
-0 &amp; -1 &amp; -1 &amp; -1 &amp; -1 &amp; -14 \\
-0 &amp; 0 &amp; -1 &amp; -1 &amp; -1 &amp; -12 \\
-0 &amp; 0 &amp; 0 &amp; -1 &amp; -1 &amp; -9 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; -5
+<section id="langkah-2-hilangkan-elemen-di-bawah-pivot-kolom-2">
+<h4>Langkah 2: Hilangkan elemen di bawah pivot kolom 2<a class="headerlink" href="#langkah-2-hilangkan-elemen-di-bawah-pivot-kolom-2" title="Link to this heading">#</a></h4>
+<p><span class="math notranslate nohighlight">\(
+R_3 \leftarrow R_3 - 3R_2
+\)</span></p>
+<p><span class="math notranslate nohighlight">\(\Rightarrow
+\left[
+\begin{array}{ccccc|ccccc}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; -2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 6 &amp; -3 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 4 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 5 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1
 \end{array}
-\right]\end{split}\]</div>
+\right]\)</span></p>
 </section>
-<section id="langkah-2">
-<h3>Langkah 2<a class="headerlink" href="#langkah-2" title="Link to this heading">#</a></h3>
-<p>Ubah pivot menjadi 1</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_2 &amp;= -R_2 \\
-R_3 &amp;= -R_3 \\
-R_4 &amp;= -R_4 \\
-R_5 &amp;= -R_5
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 15 \\
-0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 14 \\
-0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 12 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 9 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
+<section id="langkah-3-hilangkan-elemen-di-bawah-pivot-kolom-3">
+<h4>Langkah 3: Hilangkan elemen di bawah pivot kolom 3<a class="headerlink" href="#langkah-3-hilangkan-elemen-di-bawah-pivot-kolom-3" title="Link to this heading">#</a></h4>
+<p><span class="math notranslate nohighlight">\(
+R_4 \leftarrow R_4 - 4R_3
+\)</span></p>
+<p><span class="math notranslate nohighlight">\(\Rightarrow
+\left[
+\begin{array}{ccccc|ccccc}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; -2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 6 &amp; -3 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; -24 &amp; 12 &amp; -4 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 5 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1
 \end{array}
-\right]\end{split}\]</div>
+\right]\)</span></p>
 </section>
-<section id="langkah-3">
-<h3>Langkah 3<a class="headerlink" href="#langkah-3" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di atas pivot kelima</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_4 &amp;= R_4 - R_5 \\
-R_3 &amp;= R_3 - R_5 \\
-R_2 &amp;= R_2 - R_5 \\
-R_1 &amp;= R_1 - R_5
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 10 \\
-0 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 9 \\
-0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 &amp; 7 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
+<section id="langkah-4-hilangkan-elemen-di-bawah-pivot-kolom-4">
+<h4>Langkah 4: Hilangkan elemen di bawah pivot kolom 4<a class="headerlink" href="#langkah-4-hilangkan-elemen-di-bawah-pivot-kolom-4" title="Link to this heading">#</a></h4>
+<p><span class="math notranslate nohighlight">\(
+R_5 \leftarrow R_5 - 5R_4
+\)</span></p>
+<p><span class="math notranslate nohighlight">\(\Rightarrow
+\left[
+\begin{array}{ccccc|ccccc}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; -2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 6 &amp; -3 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; -24 &amp; 12 &amp; -4 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 120 &amp; -60 &amp; 20 &amp; -5 &amp; 1
 \end{array}
-\right]\end{split}\]</div>
+\right]\)</span></p>
 </section>
-<section id="langkah-4">
-<h3>Langkah 4<a class="headerlink" href="#langkah-4" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di atas pivot keempat</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_3 &amp;= R_3 - R_4 \\
-R_2 &amp;= R_2 - R_4 \\
-R_1 &amp;= R_1 - R_4
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 6 \\
-0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 5 \\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
-\end{array}
-\right]\end{split}\]</div>
 </section>
-<section id="langkah-5">
-<h3>Langkah 5<a class="headerlink" href="#langkah-5" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di atas pivot ketiga</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_2 &amp;= R_2 - R_3 \\
-R_1 &amp;= R_1 - R_3
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 3 \\
-0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 2 \\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
-\end{array}
-\right]\end{split}\]</div>
+<section id="hasil-invers">
+<h3>4. Hasil Invers<a class="headerlink" href="#hasil-invers" title="Link to this heading">#</a></h3>
+<p>Karena sisi kiri sudah menjadi matriks identitas, maka diperoleh:</p>
+<p><span class="math notranslate nohighlight">\(
+A{^-1} =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+-2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+6 &amp; -3 &amp; 1 &amp; 0 &amp; 0 \\
+-24 &amp; 12 &amp; -4 &amp; 1 &amp; 0 \\
+120 &amp; -60 &amp; 20 &amp; -5 &amp; 1
+\end{bmatrix}
+\)</span></p>
 </section>
-<section id="langkah-6">
-<h3>Langkah 6<a class="headerlink" href="#langkah-6" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di atas pivot kedua</p>
-<div class="math notranslate nohighlight">
-\[R_1 = R_1 - R_2\]</div>
+<section id="matriks-adjoin">
+<h3>5. Matriks Adjoin<a class="headerlink" href="#matriks-adjoin" title="Link to this heading">#</a></h3>
+<p>Gunakan hubungan:
+<span class="math notranslate nohighlight">\(\text{adj}(A) = \det(A) \cdot A^{-1}\)</span></p>
+<p>Karena:
+<span class="math notranslate nohighlight">\(\
+\det(A) = 1
+\)</span></p>
+<p>Maka:
+<span class="math notranslate nohighlight">\(
+\text{adj}(A) = A^{-1}
+\)</span></p>
 </section>
-<section id="hasil-akhir">
-<h3>Hasil Akhir<a class="headerlink" href="#hasil-akhir" title="Link to this heading">#</a></h3>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\
-0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 2 \\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
-\end{array}
-\right]\end{split}\]</div>
-<p><img alt="Original image" src="https://cdn.mathpix.com/snip/images/WTpqR5aPXVTS8cBNsk0NRvljB53KMiftwlZNgFQKGhY.original.fullsize.png" /></p>
+<section id="jawaban-akhir-ringkas">
+<h3>6. Jawaban Akhir (Ringkas)<a class="headerlink" href="#jawaban-akhir-ringkas" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Determinan
+<span class="math notranslate nohighlight">\(
+\det(A) = 1
+\)</span></p></li>
+<li><p>Adjoin
+<span class="math notranslate nohighlight">\(
+\text{adj}(A) =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \\
+-2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \\
+6 &amp; -3 &amp; 1 &amp; 0 &amp; 0 \\
+-24 &amp; 12 &amp; -4 &amp; 1 &amp; 0 \\
+120 &amp; -60 &amp; 20 &amp; -5 &amp; 1
+\end{bmatrix}
+\)</span></p></li>
+<li><p>Invers
+<span class="math notranslate nohighlight">\(
+A^{-1} = \text{adj}(A)
+\)</span></p></li>
+</ol>
 </section>
 </section>
 </section>
@@ -605,22 +672,13 @@ R_1 &amp;= R_1 - R_3
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="materi3.html"
+       href="materi9.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Evaluasi Determinan Dan Invers</p>
+        <p class="prev-next-title">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="materi5.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tugas Eigenface (PCA)</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -640,17 +698,24 @@ R_1 &amp;= R_1 - R_3
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"># Tugas Eliminasi Gauss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sistem-persamaan-linear-spl">1. Sistem Persamaan Linear (SPL)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-augmented">2. Matriks Augmented</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminasi-gauss-obe">3. Eliminasi Gauss (OBE)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1">Langkah 1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2">Langkah 2</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3">Langkah 3</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4">Langkah 4</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5">Langkah 5</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6">Langkah 6</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir">Hasil Akhir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-a">1. Matriks A</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#determinan-matriks-55">2. Determinan Matriks 5×5</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-adjoin-adj-a">3. Matriks Adjoin (adj A)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#invers-matriks">4. Invers Matriks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#syarat-invers">5. Syarat Invers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-perhitungan-determinannya-dari-eliminasi-gauss">6.Bentuk Perhitungan determinannya dari eliminasi gauss</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. Matriks A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#determinan-matriks-dengan-penjelasan">2. Determinan Matriks (dengan penjelasan)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mencari-invers-dengan-eliminasi-gauss-jordan">3. Mencari Invers dengan Eliminasi Gauss-Jordan</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-hilangkan-elemen-di-bawah-pivot-kolom-1">Langkah 1: Hilangkan elemen di bawah pivot kolom 1</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-hilangkan-elemen-di-bawah-pivot-kolom-2">Langkah 2: Hilangkan elemen di bawah pivot kolom 2</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-hilangkan-elemen-di-bawah-pivot-kolom-3">Langkah 3: Hilangkan elemen di bawah pivot kolom 3</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-hilangkan-elemen-di-bawah-pivot-kolom-4">Langkah 4: Hilangkan elemen di bawah pivot kolom 4</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-invers">4. Hasil Invers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-adjoin">5. Matriks Adjoin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jawaban-akhir-ringkas">6. Jawaban Akhir (Ringkas)</a></li>
 </ul>
 </li>
 </ul>
