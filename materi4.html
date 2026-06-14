@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Tugas Eliminasi Gauss &#8212; Catur Bintang Prastyo 25-165</title>
+    <title>Tugas ELiminasi (3) &#8212; Catur Bintang Prastyo 25-165</title>
   
   
   
@@ -65,6 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'materi4';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tugas Eigenface (PCA)" href="materi5.html" />
     <link rel="prev" title="Evaluasi Determinan Dan Invers" href="materi3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -170,13 +171,31 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Content with notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mulaabjembot.html">introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instro.html">introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materi1.html">(SPL)Sistem Persaman Linier</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materi2.html">Tugas Transformasi sumbu Y menggunakan Translasi dan pencerminan</a></li>
 <li class="toctree-l1"><a class="reference internal" href="materi3.html">Evaluasi Determinan Dan Invers</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas Eliminasi Gauss</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas ELiminasi  (3)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi5.html">Tugas Eigenface (PCA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi6.html">Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi8.html">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="materi9.html">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </ul>
 
     </div>
@@ -359,7 +378,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tugas Eliminasi Gauss</h1>
+    <h1>Tugas ELiminasi  (3)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -369,19 +388,17 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"># Tugas Eliminasi Gauss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sistem-persamaan-linear-spl">1. Sistem Persamaan Linear (SPL)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spl-sistem-persamaan-linear">1. SPL (Sistem Persamaan Linear)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-augmented">2. Matriks Augmented</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminasi-gauss-obe">3. Eliminasi Gauss (OBE)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1">Langkah 1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2">Langkah 2</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3">Langkah 3</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4">Langkah 4</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5">Langkah 5</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6">Langkah 6</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir">Hasil Akhir</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-nolkan-elemen-di-bawah-pivot-kolom-1">Langkah 1: nolkan elemen di bawah pivot kolom 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-nolkan-elemen-di-bawah-pivot-kolom-2">Langkah 2: nolkan elemen di bawah pivot kolom 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-nolkan-elemen-di-bawah-pivot-kolom-3">Langkah 3: nolkan elemen di bawah pivot kolom 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-nolkan-elemen-di-bawah-pivot-kolom-4">Langkah 4: nolkan elemen di bawah pivot kolom 4</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir">Hasil Akhir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sage-cell">SAGE CELL</a></li>
 </ul>
             </nav>
         </div>
@@ -393,164 +410,126 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="tugas-eliminasi-gauss">
-<h1>Tugas Eliminasi Gauss<a class="headerlink" href="#tugas-eliminasi-gauss" title="Link to this heading">#</a></h1>
-<section id="id1">
-<h2># Tugas Eliminasi Gauss<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-</section>
-<section id="sistem-persamaan-linear-spl">
-<h2>1. Sistem Persamaan Linear (SPL)<a class="headerlink" href="#sistem-persamaan-linear-spl" title="Link to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="tugas-eliminasi-3">
+<h1>Tugas ELiminasi  (3)<a class="headerlink" href="#tugas-eliminasi-3" title="Link to this heading">#</a></h1>
+<section id="spl-sistem-persamaan-linear">
+<h2>1. SPL (Sistem Persamaan Linear)<a class="headerlink" href="#spl-sistem-persamaan-linear" title="Link to this heading">#</a></h2>
 <div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-x_1 + x_2 + x_3 + x_4 + x_5 &amp;= 15 \\
-2x_1 + x_2 + x_3 + x_4 + x_5 &amp;= 16 \\
-2x_1 + 2x_2 + x_3 + x_4 + x_5 &amp;= 18 \\
-2x_1 + 2x_2 + 2x_3 + x_4 + x_5 &amp;= 21 \\
-2x_1 + 2x_2 + 2x_3 + 2x_4 + x_5 &amp;= 25
-\end{aligned}\end{split}\]</div>
+\[\begin{split}\begin{cases}
+1x_1 + 0x_2 + 0x_3 + 0x_4 + 0x_5 = 1 \\
+2x_1 + 1x_2 + 0x_3 + 0x_4 + 0x_5 = 4 \\
+0x_1 + 3x_2 + 1x_3 + 0x_4 + 0x_5 = 9 \\
+0x_1 + 0x_2 + 4x_3 + 1x_4 + 0x_5 = 16 \\
+0x_1 + 0x_2 + 0x_3 + 5x_4 + 1x_5 = 25
+\end{cases}\end{split}\]</div>
 </section>
 <section id="matriks-augmented">
 <h2>2. Matriks Augmented<a class="headerlink" href="#matriks-augmented" title="Link to this heading">#</a></h2>
 <div class="math notranslate nohighlight">
 \[\begin{split}\left[
 \begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 15 \\
-2 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 16 \\
-2 &amp; 2 &amp; 1 &amp; 1 &amp; 1 &amp; 18 \\
-2 &amp; 2 &amp; 2 &amp; 1 &amp; 1 &amp; 21 \\
-2 &amp; 2 &amp; 2 &amp; 2 &amp; 1 &amp; 25
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\
+2 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 4 \\
+1 &amp; 3 &amp; 1 &amp; 0 &amp; 0 &amp; 9 \\
+1 &amp; 0 &amp; 4 &amp; 1 &amp; 0 &amp; 16 \\
+1 &amp; 0 &amp; 0 &amp; 5 &amp; 1 &amp; 25
 \end{array}
 \right]\end{split}\]</div>
 </section>
 <section id="eliminasi-gauss-obe">
 <h2>3. Eliminasi Gauss (OBE)<a class="headerlink" href="#eliminasi-gauss-obe" title="Link to this heading">#</a></h2>
-<section id="langkah-1">
-<h3>Langkah 1<a class="headerlink" href="#langkah-1" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di bawah pivot pertama</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_2 &amp;= R_2 - 2R_1 \\
-R_3 &amp;= R_3 - 2R_1 \\
-R_4 &amp;= R_4 - 2R_1 \\
-R_5 &amp;= R_5 - 2R_1
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 15 \\
-0 &amp; -1 &amp; -1 &amp; -1 &amp; -1 &amp; -14 \\
-0 &amp; 0 &amp; -1 &amp; -1 &amp; -1 &amp; -12 \\
-0 &amp; 0 &amp; 0 &amp; -1 &amp; -1 &amp; -9 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; -1 &amp; -5
-\end{array}
-\right]\end{split}\]</div>
-</section>
-<section id="langkah-2">
-<h3>Langkah 2<a class="headerlink" href="#langkah-2" title="Link to this heading">#</a></h3>
-<p>Ubah pivot menjadi 1</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_2 &amp;= -R_2 \\
-R_3 &amp;= -R_3 \\
-R_4 &amp;= -R_4 \\
-R_5 &amp;= -R_5
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 15 \\
-0 &amp; 1 &amp; 1 &amp; 1 &amp; 1 &amp; 14 \\
-0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 &amp; 12 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 9 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
-\end{array}
-\right]\end{split}\]</div>
-</section>
-<section id="langkah-3">
-<h3>Langkah 3<a class="headerlink" href="#langkah-3" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di atas pivot kelima</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_4 &amp;= R_4 - R_5 \\
-R_3 &amp;= R_3 - R_5 \\
-R_2 &amp;= R_2 - R_5 \\
-R_1 &amp;= R_1 - R_5
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 10 \\
-0 &amp; 1 &amp; 1 &amp; 1 &amp; 0 &amp; 9 \\
-0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 &amp; 7 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
-\end{array}
-\right]\end{split}\]</div>
-</section>
-<section id="langkah-4">
-<h3>Langkah 4<a class="headerlink" href="#langkah-4" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di atas pivot keempat</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_3 &amp;= R_3 - R_4 \\
-R_2 &amp;= R_2 - R_4 \\
-R_1 &amp;= R_1 - R_4
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 6 \\
-0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 5 \\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
-\end{array}
-\right]\end{split}\]</div>
-</section>
-<section id="langkah-5">
-<h3>Langkah 5<a class="headerlink" href="#langkah-5" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di atas pivot ketiga</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\begin{aligned}
-R_2 &amp;= R_2 - R_3 \\
-R_1 &amp;= R_1 - R_3
-\end{aligned}\end{split}\]</div>
-<p>Hasil</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\left[
-\begin{array}{ccccc|c}
-1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 3 \\
-0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 2 \\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
-\end{array}
-\right]\end{split}\]</div>
-</section>
-<section id="langkah-6">
-<h3>Langkah 6<a class="headerlink" href="#langkah-6" title="Link to this heading">#</a></h3>
-<p>Hilangkan elemen di atas pivot kedua</p>
-<div class="math notranslate nohighlight">
-\[R_1 = R_1 - R_2\]</div>
-</section>
-<section id="hasil-akhir">
-<h3>Hasil Akhir<a class="headerlink" href="#hasil-akhir" title="Link to this heading">#</a></h3>
+<section id="langkah-1-nolkan-elemen-di-bawah-pivot-kolom-1">
+<h3>Langkah 1: nolkan elemen di bawah pivot kolom 1<a class="headerlink" href="#langkah-1-nolkan-elemen-di-bawah-pivot-kolom-1" title="Link to this heading">#</a></h3>
+<p>Operasi baris: $<span class="math notranslate nohighlight">\(R_2 \leftarrow R_2 - 2R_1\)</span>$</p>
+<p>Penjelasan:</p>
+<ol class="arabic simple">
+<li><p>Pivot pertama ada di kolom 1 baris 1 (angka 1).</p></li>
+<li><p>Di bawahnya (baris 2 kolom 1) ada angka 2.</p></li>
+<li><p>Kita ingin membuat elemen tersebut menjadi 0.</p></li>
+<li><p>Caranya dengan mengurangkan 2 kali baris 1 dari baris 2.</p></li>
+</ol>
 <div class="math notranslate nohighlight">
 \[\begin{split}\left[
 \begin{array}{ccccc|c}
 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\
 0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 2 \\
-0 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
-0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
+1 &amp; 3 &amp; 1 &amp; 0 &amp; 0 &amp; 9 \\
+1 &amp; 0 &amp; 4 &amp; 1 &amp; 0 &amp; 16 \\
+1 &amp; 0 &amp; 0 &amp; 5 &amp; 1 &amp; 25
 \end{array}
 \right]\end{split}\]</div>
-<p><img alt="Original image" src="https://cdn.mathpix.com/snip/images/WTpqR5aPXVTS8cBNsk0NRvljB53KMiftwlZNgFQKGhY.original.fullsize.png" /></p>
 </section>
+<section id="langkah-2-nolkan-elemen-di-bawah-pivot-kolom-2">
+<h3>Langkah 2: nolkan elemen di bawah pivot kolom 2<a class="headerlink" href="#langkah-2-nolkan-elemen-di-bawah-pivot-kolom-2" title="Link to this heading">#</a></h3>
+<p>Operasi baris: $<span class="math notranslate nohighlight">\(R_3 \leftarrow R_3 - 3R_2\)</span>$</p>
+<p>Penjelasan:</p>
+<ol class="arabic simple">
+<li><p>Pivot kedua ada di kolom 2 baris 2 (angka 1).</p></li>
+<li><p>Di bawahnya (baris 3 kolom 2) ada angka 3.</p></li>
+<li><p>Kita membuat elemen tersebut menjadi 0 dengan mengurangkan 3 kali
+baris 2.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[
+\begin{array}{ccccc|c}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 2 \\
+1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
+1 &amp; 0 &amp; 4 &amp; 1 &amp; 0 &amp; 16 \\
+1 &amp; 0 &amp; 0 &amp; 5 &amp; 1 &amp; 25
+\end{array}
+\right]\end{split}\]</div>
+</section>
+<section id="langkah-3-nolkan-elemen-di-bawah-pivot-kolom-3">
+<h3>Langkah 3: nolkan elemen di bawah pivot kolom 3<a class="headerlink" href="#langkah-3-nolkan-elemen-di-bawah-pivot-kolom-3" title="Link to this heading">#</a></h3>
+<p>Operasi baris: $<span class="math notranslate nohighlight">\(R_4 \leftarrow R_4 - 4R_3\)</span>$</p>
+<p>Penjelasan:</p>
+<ol class="arabic simple">
+<li><p>Pivot ketiga ada di kolom 3 baris 3 (angka 1).</p></li>
+<li><p>Di bawahnya (baris 4 kolom 3) ada angka 4.</p></li>
+<li><p>Elemen tersebut dinolkan dengan mengurangkan 4 kali baris 3.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[
+\begin{array}{ccccc|c}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 2 \\
+1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
+1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
+1 &amp; 0 &amp; 0 &amp; 5 &amp; 1 &amp; 25
+\end{array}
+\right]\end{split}\]</div>
+</section>
+<section id="langkah-4-nolkan-elemen-di-bawah-pivot-kolom-4">
+<h3>Langkah 4: nolkan elemen di bawah pivot kolom 4<a class="headerlink" href="#langkah-4-nolkan-elemen-di-bawah-pivot-kolom-4" title="Link to this heading">#</a></h3>
+<p>Operasi baris: $<span class="math notranslate nohighlight">\(R_5 \leftarrow R_5 - 5R_4\)</span>$</p>
+<p>Penjelasan:</p>
+<ol class="arabic simple">
+<li><p>Pivot keempat ada di kolom 4 baris 4 (angka 1).</p></li>
+<li><p>Di bawahnya (baris 5 kolom 4) ada angka 5.</p></li>
+<li><p>Elemen tersebut dibuat nol dengan mengurangkan 5 kali baris 4.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[
+    \begin{array}{ccccc|c}
+    1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\
+    0 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 2 \\
+    1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 3 \\
+    1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 4 \\
+    1 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 5
+    \end{array}
+    \right]$$\end{split}\]</div>
+</section>
+</section>
+<section id="hasil-akhir">
+<h2>Hasil Akhir<a class="headerlink" href="#hasil-akhir" title="Link to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[x_1 = 1,\quad x_2 = 2,\quad x_3 = 3,\quad x_4 = 4,\quad x_5 = 5\]</div>
+</section>
+<section id="sage-cell">
+<h2>SAGE CELL<a class="headerlink" href="#sage-cell" title="Link to this heading">#</a></h2>
+<p><img alt="original image" src="https://cdn.mathpix.com/snip/images/aeU_3-oDook_mnKKIv2FYWNZY-_fwbTFVqVEcXw9jo4.original.fullsize.png" /></p>
+<p>Kesimpulan: Eliminasi Gauss adalah metode efisien untuk menyelesaikan sistem persamaan linear (SPL) dengan mengubah matriks diperbesar menjadi bentuk eselon baris (segitiga atas) menggunakan operasi baris elementer. Proses ini diakhiri dengan substitusi balik untuk mendapatkan solusi, menjadikannya metode sistematis yang ampuh.</p>
 </section>
 </section>
 
@@ -593,6 +572,15 @@ R_1 &amp;= R_1 - R_3
         <p class="prev-next-title">Evaluasi Determinan Dan Invers</p>
       </div>
     </a>
+    <a class="right-next"
+       href="materi5.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tugas Eigenface (PCA)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -611,19 +599,17 @@ R_1 &amp;= R_1 - R_3
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"># Tugas Eliminasi Gauss</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sistem-persamaan-linear-spl">1. Sistem Persamaan Linear (SPL)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spl-sistem-persamaan-linear">1. SPL (Sistem Persamaan Linear)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matriks-augmented">2. Matriks Augmented</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eliminasi-gauss-obe">3. Eliminasi Gauss (OBE)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1">Langkah 1</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2">Langkah 2</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3">Langkah 3</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4">Langkah 4</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-5">Langkah 5</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-6">Langkah 6</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir">Hasil Akhir</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-1-nolkan-elemen-di-bawah-pivot-kolom-1">Langkah 1: nolkan elemen di bawah pivot kolom 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-2-nolkan-elemen-di-bawah-pivot-kolom-2">Langkah 2: nolkan elemen di bawah pivot kolom 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-3-nolkan-elemen-di-bawah-pivot-kolom-3">Langkah 3: nolkan elemen di bawah pivot kolom 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#langkah-4-nolkan-elemen-di-bawah-pivot-kolom-4">Langkah 4: nolkan elemen di bawah pivot kolom 4</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil-akhir">Hasil Akhir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sage-cell">SAGE CELL</a></li>
 </ul>
   </nav></div>
 
