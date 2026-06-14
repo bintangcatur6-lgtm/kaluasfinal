@@ -1,0 +1,803 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’ &#8212; Catur Bintang Prastyo 25-165</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'materi9';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces" href="materi8.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/foto kemeja putih.jpeg" class="logo__image only-light" alt="Catur Bintang Prastyo 25-165 - Home"/>
+    <img src="_static/foto kemeja putih.jpeg" class="logo__image only-dark pst-js-only" alt="Catur Bintang Prastyo 25-165 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="instro.html">introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi1.html">(SPL)Sistem Persaman Linier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi2.html">Tugas Transformasi sumbu Y menggunakan Translasi dan pencerminan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi3.html">Evaluasi Determinan Dan Invers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi4.html">Tugas Eliminasi Gauss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi5.html">Tugas Eigenface (PCA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi6.html">Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi8.html">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</a></li>
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmateri9.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/materi9.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library-setup-deteksi-lingkungan-colab-vs-lokal">1. Import Library &amp; Setup Deteksi Lingkungan (Colab vs Lokal)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mendeteksi-lingkungan-kerja-google-colab-vs-pc-lokal">1. Mendeteksi Lingkungan Kerja (Google Colab vs PC Lokal)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset-wajah-riil-dari-folder-faces">2. Load Dataset Wajah Riil dari Folder ‘faces’</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#memuat-dataset">Memuat dataset</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-premium-dataset-pelatihan-wajah">3. Visualisasi Premium Dataset Pelatihan Wajah</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-sampel-5-gambar-untuk-masing-masing-orang-total-15-gambar-dalam-grid-3x5">Menampilkan sampel 5 gambar untuk masing-masing orang (Total 15 gambar dalam grid 3x5)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-komputasi-svd">4. Normalisasi &amp; Komputasi SVD</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hitung-rata-rata-wajah-mean-face">1. Hitung Rata-rata Wajah (Mean Face)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-data-mean-subtraction">2. Normalisasi Data (Mean Subtraction)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dekomposisi-svd">3. Dekomposisi SVD</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-wajah-eigenface-ghostly-faces">5. Visualisasi Wajah Eigenface (Ghostly Faces)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-training-set-pengujian-wajah-baru">6. Proyeksi Training Set &amp; Pengujian Wajah Baru</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-training-set-ke-eigenspace">1. Proyeksi training set ke Eigenspace</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-gambar-uji-berdasarkan-lingkungan-kerja">2. Mengambil gambar uji berdasarkan lingkungan kerja</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-gambar-uji">Load gambar uji</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-proyeksi-test-image">3. Normalisasi &amp; Proyeksi Test Image</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hitung-jarak-euclidean-ke-seluruh-training-set-menggunakan-numpy">4. Hitung Jarak Euclidean ke seluruh training set menggunakan NumPy</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-ambil-yang-terdekat">5. Klasifikasi: Ambil yang terdekat</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-wajah-hasil-match-terdekat-untuk-visualisasi">6. Load Wajah Hasil Match Terdekat untuk Visualisasi</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tampilkan-perbandingan">7. Tampilkan Perbandingan</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="project-tugas-pengenalan-wajah-eigenface-menggunakan-svd-dengan-folder-faces">
+<h1>PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’<a class="headerlink" href="#project-tugas-pengenalan-wajah-eigenface-menggunakan-svd-dengan-folder-faces" title="Link to this heading">#</a></h1>
+<p>Notebook ini menggunakan data citra riil dari folder <strong><code class="docutils literal notranslate"><span class="pre">faces</span></code></strong> (berisi Arnold Schwarzenegger, Sylvester Stallone, dan Elizabeth Taylor).</p>
+<p>Program dirancang cerdas agar <strong>mendukung dual-mode</strong> (dapat berjalan lokal di VS Code Anda maupun di Google Colab cloud)!</p>
+<section id="import-library-setup-deteksi-lingkungan-colab-vs-lokal">
+<h2>1. Import Library &amp; Setup Deteksi Lingkungan (Colab vs Lokal)<a class="headerlink" href="#import-library-setup-deteksi-lingkungan-colab-vs-lokal" title="Link to this heading">#</a></h2>
+<p>import os
+import cv2
+import zipfile
+import numpy as np
+import matplotlib.pyplot as plt</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="mendeteksi-lingkungan-kerja-google-colab-vs-pc-lokal">
+<h1>1. Mendeteksi Lingkungan Kerja (Google Colab vs PC Lokal)<a class="headerlink" href="#mendeteksi-lingkungan-kerja-google-colab-vs-pc-lokal" title="Link to this heading">#</a></h1>
+<p>try:
+import google.colab
+IN_COLAB = True
+except ImportError:
+IN_COLAB = False</p>
+<p>IMG_SIZE = 100</p>
+<p>if IN_COLAB:
+print(“Mendeteksi Lingkungan: GOOGLE COLAB”)
+from google.colab import files</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Jika folder faces belum ada di Colab, minta upload zip
+if not os.path.exists(&quot;faces&quot;):
+    print(&quot;Silakan UPLOAD file zip &#39;faces.zip&#39; Anda!&quot;)
+    uploaded = files.upload()
+    zip_name = list(uploaded.keys())[0]
+    
+    # Ekstrak zip ke direktori Colab
+    with zipfile.ZipFile(zip_name, &#39;r&#39;) as zip_ref:
+        zip_ref.extractall(&quot;/content/&quot;)
+    print(&quot;Dataset berhasil diekstrak di Google Colab!&quot;)
+dataset_path = &quot;/content/faces&quot;
+</pre></div>
+</div>
+<p>else:
+print(“Mendeteksi Lingkungan: LOKAL (VS Code / PC)”)
+dataset_path = “faces”</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>if not os.path.exists(dataset_path):
+    raise FileNotFoundError(f&quot;Folder &#39;{dataset_path}&#39; tidak ditemukan! Letakkan folder &#39;faces&#39; di workspace Anda.&quot;)
+</pre></div>
+</div>
+<section id="load-dataset-wajah-riil-dari-folder-faces">
+<h2>2. Load Dataset Wajah Riil dari Folder ‘faces’<a class="headerlink" href="#load-dataset-wajah-riil-dari-folder-faces" title="Link to this heading">#</a></h2>
+<p>Fungsi ini akan meload seluruh citra latih di dalam folder <code class="docutils literal notranslate"><span class="pre">faces</span></code> (mengabaikan file uji berawalan <code class="docutils literal notranslate"><span class="pre">test</span></code>), mengekstrak nama identitas dari nama file (misal: <code class="docutils literal notranslate"><span class="pre">arnold01.jpg</span></code> menjadi <code class="docutils literal notranslate"><span class="pre">arnold</span></code>), me-resize ke <span class="math notranslate nohighlight">\(100 \times 100\)</span> grayscale, dan me-flatten menjadi vektor satu dimensi.
+def load_dataset(path):
+data = []
+labels = []
+for file in os.listdir(path):
+# Abaikan file uji yang diawali kata ‘test’
+if file.lower().startswith(‘test’):
+continue</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>    # Ekstrak nama (identitas) dari nama file (misal: &#39;arnold01.jpg&#39; -&gt; &#39;arnold&#39;)
+    name = &#39;&#39;.join([c for c in file.split(&#39;.&#39;)[0] if not c.isdigit()]).lower()
+    
+    img_path = os.path.join(path, file)
+    img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+    if img is not None:
+        img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
+        data.append(img.flatten())
+        labels.append(name)
+return np.array(data, dtype=np.float32), np.array(labels)
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="memuat-dataset">
+<h1>Memuat dataset<a class="headerlink" href="#memuat-dataset" title="Link to this heading">#</a></h1>
+<p>X, y = load_dataset(dataset_path)</p>
+<p>print(“===== DETIL DATASET LATIH =====”)
+print(“Jumlah gambar training :”, len(X))
+print(“Ukuran matrix data     :”, X.shape)
+print(“Identitas unik         :”, list(np.unique(y)))</p>
+<section id="visualisasi-premium-dataset-pelatihan-wajah">
+<h2>3. Visualisasi Premium Dataset Pelatihan Wajah<a class="headerlink" href="#visualisasi-premium-dataset-pelatihan-wajah" title="Link to this heading">#</a></h2>
+<p>Mari kita tampilkan sampel 5 foto riil untuk masing-masing orang (Arnold, Stallone, Taylor) dari folder <code class="docutils literal notranslate"><span class="pre">faces/</span></code> Anda dalam grid <span class="math notranslate nohighlight">\(3 \times 5\)</span> yang sangat rapi.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="menampilkan-sampel-5-gambar-untuk-masing-masing-orang-total-15-gambar-dalam-grid-3x5">
+<h1>Menampilkan sampel 5 gambar untuk masing-masing orang (Total 15 gambar dalam grid 3x5)<a class="headerlink" href="#menampilkan-sampel-5-gambar-untuk-masing-masing-orang-total-15-gambar-dalam-grid-3x5" title="Link to this heading">#</a></h1>
+<p>unique_names = list(np.unique(y))
+num_people = len(unique_names)
+num_samples = 5</p>
+<p>fig, axes = plt.subplots(num_people, num_samples, figsize=(12, 7.5))
+fig.suptitle(“DATASET PELATIHAN CITRA WAJAH RIIL (Arnold, Stallone, Taylor)”, fontsize=14, fontweight=’bold’, color=’#1a1a1a’)</p>
+<p>for idx, name in enumerate(unique_names):
+# Dapatkan semua indeks gambar milik orang tersebut
+idxs = np.where(y == name)[0]</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Pilih 5 gambar secara merata dari daftar indeks tersebut
+selected_idxs = [idxs[int(i)] for i in np.linspace(0, len(idxs) - 1, num_samples)]
+
+for sample_idx, img_idx in enumerate(selected_idxs):
+    ax = axes[idx, sample_idx]
+    face = X[img_idx].reshape(IMG_SIZE, IMG_SIZE)
+    ax.imshow(face, cmap=&#39;gray&#39;)
+    
+    # Label kolom variasi dan baris nama orang
+    if sample_idx == 0:
+        ax.set_ylabel(name.upper(), fontsize=12, fontweight=&#39;bold&#39;, color=&#39;blue&#39;)
+    ax.set_title(f&quot;Sampel {sample_idx+1}&quot;, fontsize=9)
+    ax.set_xticks([])
+    ax.set_yticks([])
+</pre></div>
+</div>
+<p>plt.tight_layout()
+plt.show()</p>
+<section id="normalisasi-komputasi-svd">
+<h2>4. Normalisasi &amp; Komputasi SVD<a class="headerlink" href="#normalisasi-komputasi-svd" title="Link to this heading">#</a></h2>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="hitung-rata-rata-wajah-mean-face">
+<h1>1. Hitung Rata-rata Wajah (Mean Face)<a class="headerlink" href="#hitung-rata-rata-wajah-mean-face" title="Link to this heading">#</a></h1>
+<p>mean_face = np.mean(X, axis=0)</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="normalisasi-data-mean-subtraction">
+<h1>2. Normalisasi Data (Mean Subtraction)<a class="headerlink" href="#normalisasi-data-mean-subtraction" title="Link to this heading">#</a></h1>
+<p>A = X - mean_face</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="dekomposisi-svd">
+<h1>3. Dekomposisi SVD<a class="headerlink" href="#dekomposisi-svd" title="Link to this heading">#</a></h1>
+<p>U, S, VT = np.linalg.svd(A, full_matrices=False)</p>
+<p>print(“===== HASIL KOMPUTASI DEKOMPOSISI SVD =====”)
+print(“Ukuran U (Bobot Training)  :”, U.shape)
+print(“Ukuran Sigma (Singular)    :”, np.diag(S).shape)
+print(“Ukuran VT (Eigenfaces)     :”, VT.shape)</p>
+<p>print(“\n===== 5 SINGULAR VALUES TERBESAR =====”)
+for i in range(min(5, len(S))):
+print(f”Singular Value {i+1} = {S[i]:.4f}”)</p>
+<section id="visualisasi-wajah-eigenface-ghostly-faces">
+<h2>5. Visualisasi Wajah Eigenface (Ghostly Faces)<a class="headerlink" href="#visualisasi-wajah-eigenface-ghostly-faces" title="Link to this heading">#</a></h2>
+<p>k = 10
+if k &gt; len(VT):
+k = len(VT)</p>
+<p>eigenfaces = VT[:k]</p>
+<p>plt.figure(figsize=(15, 6))
+for i in range(k):
+plt.subplot(2, 5, i+1)
+face = eigenfaces[i].reshape(IMG_SIZE, IMG_SIZE)
+plt.imshow(face, cmap=’coolwarm’)  # ‘coolwarm’ untuk visualisasi premium
+plt.title(f”Eigenface {i+1}”)
+plt.axis(‘off’)
+plt.suptitle(“VISUALISASI EIGENFACES HASIL DEKOMPOSISI SVD”, fontsize=14, fontweight=’bold’)
+plt.tight_layout()
+plt.show()</p>
+</section>
+<section id="proyeksi-training-set-pengujian-wajah-baru">
+<h2>6. Proyeksi Training Set &amp; Pengujian Wajah Baru<a class="headerlink" href="#proyeksi-training-set-pengujian-wajah-baru" title="Link to this heading">#</a></h2>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="proyeksi-training-set-ke-eigenspace">
+<h1>1. Proyeksi training set ke Eigenspace<a class="headerlink" href="#proyeksi-training-set-ke-eigenspace" title="Link to this heading">#</a></h1>
+<p>projected_train = np.dot(A, eigenfaces.T)</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="mengambil-gambar-uji-berdasarkan-lingkungan-kerja">
+<h1>2. Mengambil gambar uji berdasarkan lingkungan kerja<a class="headerlink" href="#mengambil-gambar-uji-berdasarkan-lingkungan-kerja" title="Link to this heading">#</a></h1>
+<p>if IN_COLAB:
+print(“\nSilakan UPLOAD gambar wajah uji Anda (misal ‘teststallone1.jpg’ atau ‘testtaylor1.jpg’)!”)
+from google.colab import files
+uploaded_test = files.upload()
+test_file_path = list(uploaded_test.keys())[0]
+else:
+# Mode Lokal: Cari gambar uji berawalan ‘test’ di folder ‘faces’
+# Secara default, mari kita gunakan ‘testterminator1.jpg’ (uji Arnold)
+test_file_path = os.path.join(dataset_path, “testterminator1.jpg”)
+if not os.path.exists(test_file_path):
+test_files = [f for f in os.listdir(dataset_path) if f.lower().startswith(‘test’)]
+if len(test_files) &gt; 0:
+test_file_path = os.path.join(dataset_path, test_files[0])
+print(f”Menggunakan Wajah Uji Lokal: {test_file_path}”)</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-gambar-uji">
+<h1>Load gambar uji<a class="headerlink" href="#load-gambar-uji" title="Link to this heading">#</a></h1>
+<p>test_img = cv2.imread(test_file_path, cv2.IMREAD_GRAYSCALE)
+if test_img is None:
+raise FileNotFoundError(f”Gagal memuat gambar uji dari: {test_file_path}”)
+test_img = cv2.resize(test_img, (IMG_SIZE, IMG_SIZE))</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="normalisasi-proyeksi-test-image">
+<h1>3. Normalisasi &amp; Proyeksi Test Image<a class="headerlink" href="#normalisasi-proyeksi-test-image" title="Link to this heading">#</a></h1>
+<p>test_vector = test_img.flatten().astype(np.float32)
+test_normalized = test_vector - mean_face
+projected_test = np.dot(test_normalized, eigenfaces.T)</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="hitung-jarak-euclidean-ke-seluruh-training-set-menggunakan-numpy">
+<h1>4. Hitung Jarak Euclidean ke seluruh training set menggunakan NumPy<a class="headerlink" href="#hitung-jarak-euclidean-ke-seluruh-training-set-menggunakan-numpy" title="Link to this heading">#</a></h1>
+<p>distances = np.linalg.norm(projected_train - projected_test, axis=1)</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="klasifikasi-ambil-yang-terdekat">
+<h1>5. Klasifikasi: Ambil yang terdekat<a class="headerlink" href="#klasifikasi-ambil-yang-terdekat" title="Link to this heading">#</a></h1>
+<p>best_match_idx = np.argmin(distances)
+hasil = y[best_match_idx]</p>
+<p>print(“\n===== DETIL JARAK EUCLIDEAN TERDEKAT =====”)
+unique_names = list(np.unique(y))
+for name in unique_names:
+idxs = np.where(y == name)[0]
+min_dist_name = np.min(distances[idxs])
+print(f”Jarak Terdekat ke {name.upper()} = {min_dist_name:.4f}”)</p>
+<p>print(“\n====================================”)
+print(”     HASIL PENGENALAN WAJAH SVD”)
+print(“====================================”)
+print(“Gambar Uji        :”, os.path.basename(test_file_path))
+print(“Prediksi Identitas:”, hasil.upper())
+print(“Jarak Terdekat    :”, distances[best_match_idx])</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="load-wajah-hasil-match-terdekat-untuk-visualisasi">
+<h1>6. Load Wajah Hasil Match Terdekat untuk Visualisasi<a class="headerlink" href="#load-wajah-hasil-match-terdekat-untuk-visualisasi" title="Link to this heading">#</a></h1>
+<p>matched_img_idx = np.where(y == hasil)[0][0]
+matched_img = X[matched_img_idx].reshape(IMG_SIZE, IMG_SIZE)</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tampilkan-perbandingan">
+<h1>7. Tampilkan Perbandingan<a class="headerlink" href="#tampilkan-perbandingan" title="Link to this heading">#</a></h1>
+<p>plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1)
+plt.imshow(test_img, cmap=’gray’)
+plt.title(f”Wajah Uji: {os.path.basename(test_file_path)}”, fontsize=11, fontweight=’bold’, color=’orange’)
+plt.axis(‘off’)</p>
+<p>plt.subplot(1, 2, 2)
+plt.imshow(matched_img, cmap=’gray’)
+plt.title(f”Cocok Terdekat: {hasil.upper()}”, fontsize=11, fontweight=’bold’, color=’green’)
+plt.axis(‘off’)</p>
+<p>plt.suptitle(“HASIL AKHIR PENGENALAN WAJAH SISTEM SVD”, fontsize=13, fontweight=’bold’)
+plt.tight_layout()
+plt.show()</p>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="materi8.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library-setup-deteksi-lingkungan-colab-vs-lokal">1. Import Library &amp; Setup Deteksi Lingkungan (Colab vs Lokal)</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mendeteksi-lingkungan-kerja-google-colab-vs-pc-lokal">1. Mendeteksi Lingkungan Kerja (Google Colab vs PC Lokal)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset-wajah-riil-dari-folder-faces">2. Load Dataset Wajah Riil dari Folder ‘faces’</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#memuat-dataset">Memuat dataset</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-premium-dataset-pelatihan-wajah">3. Visualisasi Premium Dataset Pelatihan Wajah</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#menampilkan-sampel-5-gambar-untuk-masing-masing-orang-total-15-gambar-dalam-grid-3x5">Menampilkan sampel 5 gambar untuk masing-masing orang (Total 15 gambar dalam grid 3x5)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-komputasi-svd">4. Normalisasi &amp; Komputasi SVD</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hitung-rata-rata-wajah-mean-face">1. Hitung Rata-rata Wajah (Mean Face)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-data-mean-subtraction">2. Normalisasi Data (Mean Subtraction)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dekomposisi-svd">3. Dekomposisi SVD</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-wajah-eigenface-ghostly-faces">5. Visualisasi Wajah Eigenface (Ghostly Faces)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-training-set-pengujian-wajah-baru">6. Proyeksi Training Set &amp; Pengujian Wajah Baru</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-training-set-ke-eigenspace">1. Proyeksi training set ke Eigenspace</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#mengambil-gambar-uji-berdasarkan-lingkungan-kerja">2. Mengambil gambar uji berdasarkan lingkungan kerja</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-gambar-uji">Load gambar uji</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisasi-proyeksi-test-image">3. Normalisasi &amp; Proyeksi Test Image</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#hitung-jarak-euclidean-ke-seluruh-training-set-menggunakan-numpy">4. Hitung Jarak Euclidean ke seluruh training set menggunakan NumPy</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-ambil-yang-terdekat">5. Klasifikasi: Ambil yang terdekat</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-wajah-hasil-match-terdekat-untuk-visualisasi">6. Load Wajah Hasil Match Terdekat untuk Visualisasi</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tampilkan-perbandingan">7. Tampilkan Perbandingan</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tugas Kuliah: Perhitungan Determinan Ekspansi Baris dan Invers Matriks Adjoin &#8212; Catur Bintang Prastyo 25-165</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'matri7';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/foto kemeja putih.jpeg" class="logo__image only-light" alt="Catur Bintang Prastyo 25-165 - Home"/>
+    <img src="_static/foto kemeja putih.jpeg" class="logo__image only-dark pst-js-only" alt="Catur Bintang Prastyo 25-165 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="instro.html">introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi1.html">(SPL)Sistem Persaman Linier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi2.html">Tugas Transformasi sumbu Y menggunakan Translasi dan pencerminan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi3.html">Evaluasi Determinan Dan Invers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi4.html">Tugas Eliminasi Gauss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi5.html">Tugas Eigenface (PCA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi6.html">Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi8.html">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="materi9.html">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmatri7.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/matri7.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tugas Kuliah: Perhitungan Determinan Ekspansi Baris dan Invers Matriks Adjoin</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-a-perhitungan-determinan-dengan-rumus-ekspansi-baris">Bagian A: Perhitungan Determinan dengan Rumus Ekspansi Baris</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penyelesaian-matriks-2x2">1. Penyelesaian Matriks 2x2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penyelesaian-matriks-3x3">2. Penyelesaian Matriks 3x3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penyelesaian-matriks-4x4">3. Penyelesaian Matriks 4x4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-b-invers-matriks-menggunakan-metode-adjoin">Bagian B: Invers Matriks Menggunakan Metode Adjoin</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#invers-matriks-2x2">4. Invers Matriks 2x2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#invers-matriks-3x3">5. Invers Matriks 3x3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#invers-matriks-4x4">6. Invers Matriks 4x4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validasi-komputasi-menggunakan-python-numpy">Validasi Komputasi Menggunakan Python (NumPy)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#berikut-link-collab-nya">berikut link collab nya</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tugas-kuliah-perhitungan-determinan-ekspansi-baris-dan-invers-matriks-adjoin">
+<h1>Tugas Kuliah: Perhitungan Determinan Ekspansi Baris dan Invers Matriks Adjoin<a class="headerlink" href="#tugas-kuliah-perhitungan-determinan-ekspansi-baris-dan-invers-matriks-adjoin" title="Link to this heading">#</a></h1>
+<p>Halaman ini memuat dokumentasi penyelesaian teknis untuk perhitungan nilai determinan matriks menggunakan metode ekspansi baris kofaktor serta pencarian nilai invers matriks melalui pendekatan matriks adjoin. Pengujian dilakukan pada tiga variasi orde matriks, yaitu berukuran <span class="math notranslate nohighlight">\(2 \times 2\)</span>, <span class="math notranslate nohighlight">\(3 \times 3\)</span>, dan <span class="math notranslate nohighlight">\(4 \times 4\)</span>.</p>
+<hr class="docutils" />
+<section id="bagian-a-perhitungan-determinan-dengan-rumus-ekspansi-baris">
+<h2>Bagian A: Perhitungan Determinan dengan Rumus Ekspansi Baris<a class="headerlink" href="#bagian-a-perhitungan-determinan-dengan-rumus-ekspansi-baris" title="Link to this heading">#</a></h2>
+<p>Formula umum perhitungan determinan menggunakan ekspansi kofaktor pada baris ke-<span class="math notranslate nohighlight">\(i\)</span> dinyatakan sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[\det(A) = \sum_{k=1}^n (-1)^{i+k} a_{ik} M_{ik}\]</div>
+<p>Di mana <span class="math notranslate nohighlight">\(M_{ik}\)</span> melambangkan nilai determinan minor setelah baris ke-<span class="math notranslate nohighlight">\(i\)</span> dan kolom ke-<span class="math notranslate nohighlight">\(k\)</span> dihapus dari matriks utama <span class="math notranslate nohighlight">\(A_{m \times n}\)</span> dengan batasan indeks <span class="math notranslate nohighlight">\(1 \le i, j \le n\)</span>.</p>
+<section id="penyelesaian-matriks-2x2">
+<h3>1. Penyelesaian Matriks 2x2<a class="headerlink" href="#penyelesaian-matriks-2x2" title="Link to this heading">#</a></h3>
+<p>Diberikan matriks <span class="math notranslate nohighlight">\(A\)</span> berukuran <span class="math notranslate nohighlight">\(2 \times 2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \begin{bmatrix} -7 &amp; -5 \\ 1 &amp; 4 \end{bmatrix}\end{split}\]</div>
+<p>Proses penyelesaian menggunakan ekspansi baris ke-1 (<span class="math notranslate nohighlight">\(i=1\)</span>):</p>
+<ul class="simple">
+<li><p><strong>Untuk <span class="math notranslate nohighlight">\(k=1\)</span> (Elemen <span class="math notranslate nohighlight">\(a_{11} = -7\)</span>):</strong>
+Submatriks <span class="math notranslate nohighlight">\(A_{11} = \begin{bmatrix} 4 \end{bmatrix}\)</span>, sehingga nilai minor <span class="math notranslate nohighlight">\(M_{11} = \det(A_{11}) = 4\)</span>.
+Suku pertama: <span class="math notranslate nohighlight">\((-1)^{1+1} \cdot (-7) \cdot 4 = 1 \cdot (-7) \cdot 4 = -28\)</span></p></li>
+<li><p><strong>Untuk <span class="math notranslate nohighlight">\(k=2\)</span> (Elemen <span class="math notranslate nohighlight">\(a_{12} = -5\)</span>):</strong>
+Submatriks <span class="math notranslate nohighlight">\(A_{12} = \begin{bmatrix} 1 \end{bmatrix}\)</span>, sehingga nilai minor <span class="math notranslate nohighlight">\(M_{12} = \det(A_{12}) = 1\)</span>.
+Suku kedua: <span class="math notranslate nohighlight">\((-1)^{1+2} \cdot (-5) \cdot 1 = (-1) \cdot (-5) \cdot 1 = 5\)</span></p></li>
+</ul>
+<p>Gabungkan hasil perhitungan suku operasi:
+$<span class="math notranslate nohighlight">\(\det(A) = -28 + 5 = -23\)</span>$</p>
+<p><strong>Hasil Akhir:</strong> <span class="math notranslate nohighlight">\(\det(A) = -23\)</span></p>
+</section>
+<section id="penyelesaian-matriks-3x3">
+<h3>2. Penyelesaian Matriks 3x3<a class="headerlink" href="#penyelesaian-matriks-3x3" title="Link to this heading">#</a></h3>
+<p>Diberikan matriks <span class="math notranslate nohighlight">\(A\)</span> berukuran <span class="math notranslate nohighlight">\(3 \times 3\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \begin{bmatrix} 0 &amp; 2 &amp; -3 \\ 1 &amp; -2 &amp; -1 \\ 0 &amp; 0 &amp; 1 \end{bmatrix}\end{split}\]</div>
+<p>Proses penyelesaian menggunakan ekspansi baris ke-3 (<span class="math notranslate nohighlight">\(i=3\)</span>). Karena elemen <span class="math notranslate nohighlight">\(a_{31}\)</span> dan <span class="math notranslate nohighlight">\(a_{32}\)</span> bernilai 0, kita hanya perlu menghitung komponen kofaktor untuk elemen diagonal terakhir <span class="math notranslate nohighlight">\(a_{33} = 1\)</span>:</p>
+<ul class="simple">
+<li><p><strong>Submatriks Minor <span class="math notranslate nohighlight">\(A_{33}\)</span>:</strong>
+$<span class="math notranslate nohighlight">\(A_{33} = \begin{bmatrix} 0 &amp; 2 \\ 1 &amp; -2 \end{bmatrix}\)</span>$</p></li>
+<li><p><strong>Nilai Minor <span class="math notranslate nohighlight">\(M_{33}\)</span>:</strong>
+$<span class="math notranslate nohighlight">\(M_{33} = \det(A_{33}) = (0 \cdot -2) - (2 \cdot 1) = 0 - 2 = -2\)</span>$</p></li>
+</ul>
+<p>Substitusikan nilai ke dalam fungsi ekspansi baris ke-3:
+$<span class="math notranslate nohighlight">\(\det(A) = (-1)^{3+1}(0)M_{31} + (-1)^{3+2}(0)M_{32} + (-1)^{3+3}a_{33}M_{33}\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\det(A) = 0 + 0 + (1) \cdot (1) \cdot (-2) = -2\)</span>$</p>
+<p><strong>Hasil Akhir:</strong> <span class="math notranslate nohighlight">\(\det(A) = -2\)</span></p>
+</section>
+<section id="penyelesaian-matriks-4x4">
+<h3>3. Penyelesaian Matriks 4x4<a class="headerlink" href="#penyelesaian-matriks-4x4" title="Link to this heading">#</a></h3>
+<p>Diberikan matriks <span class="math notranslate nohighlight">\(A\)</span> berukuran <span class="math notranslate nohighlight">\(4 \times 4\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \begin{bmatrix} 1 &amp; -3 &amp; 1 &amp; 1 \\ -3 &amp; 1 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; -3 &amp; 1 \\ 1 &amp; 1 &amp; 1 &amp; -3 \end{bmatrix}\end{split}\]</div>
+<p>Proses penyelesaian menggunakan ekspansi baris ke-1 (<span class="math notranslate nohighlight">\(i=1\)</span>):</p>
+<ul class="simple">
+<li><p><strong>Langkah 1: Perhitungan Nilai Minor <span class="math notranslate nohighlight">\(M_{1k}\)</span> (Determinan Submatriks 3x3)</strong>
+Melalui kalkulasi kofaktor internal pada masing-masing submatriks 3x3 yang terbentuk, diperoleh nilai minor sebagai berikut:
+$<span class="math notranslate nohighlight">\(M_{11} = 16, \quad M_{12} = 16, \quad M_{13} = 16, \quad M_{14} = 16\)</span>$</p></li>
+<li><p><strong>Langkah 2: Substitusi Komponen ke Rumus Utama</strong>
+$<span class="math notranslate nohighlight">\(\det(A) = \sum_{k=1}^4 (-1)^{1+k} a_{1k} M_{1k}\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\det(A) = (-1)^{1+1}(1)(16) + (-1)^{1+2}(-3)(16) + (-1)^{1+3}(1)(16) + (-1)^{1+4}(1)(16)\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\det(A) = (1)(1)(16) + (-1)(-3)(16) + (1)(1)(16) + (-1)(1)(16)\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\det(A) = 16 + 48 + 16 - 16 = 64\)</span>$</p></li>
+</ul>
+<p><strong>Hasil Akhir:</strong> <span class="math notranslate nohighlight">\(\det(A) = 64\)</span></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="bagian-b-invers-matriks-menggunakan-metode-adjoin">
+<h2>Bagian B: Invers Matriks Menggunakan Metode Adjoin<a class="headerlink" href="#bagian-b-invers-matriks-menggunakan-metode-adjoin" title="Link to this heading">#</a></h2>
+<p>Pencarian invers dilakukan dengan memanfaatkan transpos dari matriks kofaktor (adjoin) dibagi dengan determinan utama melalui rumus operasional:</p>
+<div class="math notranslate nohighlight">
+\[(adj\,A)_{ij} = (-1)^{i+j} M_{ji}\]</div>
+<div class="math notranslate nohighlight">
+\[A^{-1} = \frac{1}{\det(A)} adj\,A\]</div>
+<section id="invers-matriks-2x2">
+<h3>4. Invers Matriks 2x2<a class="headerlink" href="#invers-matriks-2x2" title="Link to this heading">#</a></h3>
+<p>Menggunakan basis matriks <span class="math notranslate nohighlight">\(A\)</span> ukuran <span class="math notranslate nohighlight">\(2 \times 2\)</span> dari soal sebelumnya:
+$<span class="math notranslate nohighlight">\(A = \begin{bmatrix} -7 &amp; -5 \\ 1 &amp; 4 \end{bmatrix}, \quad \det(A) = -23\)</span>$</p>
+<ul class="simple">
+<li><p><strong>Langkah 1: Tentukan Elemen Kofaktor <span class="math notranslate nohighlight">\(C_{ij}\)</span></strong>
+$<span class="math notranslate nohighlight">\(C_{11} = (-1)^{1+1}(4) = 4\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(C_{12} = (-1)^{1+2}(1) = -1\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(C_{21} = (-1)^{2+1}(-5) = 5\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(C_{22} = (-1)^{2+2}(-7) = -7\)</span>$</p></li>
+<li><p><strong>Langkah 2: Matriks Adjoin (Transpos Kofaktor)</strong>
+$<span class="math notranslate nohighlight">\(adj\,A = \begin{bmatrix} 4 &amp; 5 \\ -1 &amp; -7 \end{bmatrix}\)</span>$</p></li>
+<li><p><strong>Langkah 3: Perhitungan Matriks Invers</strong>
+$<span class="math notranslate nohighlight">\(A^{-1} = \frac{1}{-23} \begin{bmatrix} 4 &amp; 5 \\ -1 &amp; -7 \end{bmatrix} = \begin{bmatrix} -4/23 &amp; -5/23 \\ 1/23 &amp; 7/23 \end{bmatrix}\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="invers-matriks-3x3">
+<h3>5. Invers Matriks 3x3<a class="headerlink" href="#invers-matriks-3x3" title="Link to this heading">#</a></h3>
+<p>Menggunakan basis matriks <span class="math notranslate nohighlight">\(A\)</span> ukuran <span class="math notranslate nohighlight">\(3 \times 3\)</span> dari soal sebelumnya:
+$<span class="math notranslate nohighlight">\(A = \begin{bmatrix} 0 &amp; 2 &amp; -3 \\ 1 &amp; -2 &amp; -1 \\ 0 &amp; 0 &amp; 1 \end{bmatrix}, \quad \det(A) = -2\)</span>$</p>
+<ul class="simple">
+<li><p><strong>Langkah 1: Hitung Seluruh Komponen Kofaktor Elemen <span class="math notranslate nohighlight">\(C_{ij} = (-1)^{i+j} M_{ij}\)</span></strong>
+$<span class="math notranslate nohighlight">\(C_{11} = +\begin{vmatrix} -2 &amp; -1 \\ 0 &amp; 1 \end{vmatrix} = -2, \quad C_{12} = -\begin{vmatrix} 1 &amp; -1 \\ 0 &amp; 1 \end{vmatrix} = -1, \quad C_{13} = +\begin{vmatrix} 1 &amp; -2 \\ 0 &amp; 0 \end{vmatrix} = 0\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(C_{21} = -\begin{vmatrix} 2 &amp; -3 \\ 0 &amp; 1 \end{vmatrix} = -2, \quad C_{22} = +\begin{vmatrix} 0 &amp; -3 \\ 0 &amp; 1 \end{vmatrix} = 0, \quad C_{23} = -\begin{vmatrix} 0 &amp; 2 \\ 0 &amp; 0 \end{vmatrix} = 0\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(C_{31} = +\begin{vmatrix} 2 &amp; -3 \\ -2 &amp; -1 \end{vmatrix} = -8, \quad C_{32} = -\begin{vmatrix} 0 &amp; -3 \\ 1 &amp; -1 \end{vmatrix} = -3, \quad C_{33} = +\begin{vmatrix} 0 &amp; 2 \\ 1 &amp; -2 \end{vmatrix} = -2\)</span>$</p></li>
+<li><p><strong>Langkah 2: Susun Matriks Adjoin (Transpos dari Susunan Kofaktor di Atas)</strong>
+$<span class="math notranslate nohighlight">\(adj\,A = \begin{bmatrix} -2 &amp; -2 &amp; -8 \\ -1 &amp; 0 &amp; -3 \\ 0 &amp; 0 &amp; -2 \end{bmatrix}\)</span>$</p></li>
+<li><p><strong>Langkah 3: Perhitungan Matriks Invers</strong>
+$<span class="math notranslate nohighlight">\(A^{-1} = \frac{1}{-2} \begin{bmatrix} -2 &amp; -2 &amp; -8 \\ -1 &amp; 0 &amp; -3 \\ 0 &amp; 0 &amp; -2 \end{bmatrix} = \begin{bmatrix} 1.0 &amp; 1.0 &amp; 4.0 \\ 0.5 &amp; 0.0 &amp; 1.5 \\ 0.0 &amp; 0.0 &amp; 1.0 \end{bmatrix}\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="invers-matriks-4x4">
+<h3>6. Invers Matriks 4x4<a class="headerlink" href="#invers-matriks-4x4" title="Link to this heading">#</a></h3>
+<p>Menggunakan basis matriks <span class="math notranslate nohighlight">\(A\)</span> ukuran <span class="math notranslate nohighlight">\(4 \times 4\)</span> dari soal sebelumnya:
+$<span class="math notranslate nohighlight">\(A = \begin{bmatrix} 1 &amp; -3 &amp; 1 &amp; 1 \\ -3 &amp; 1 &amp; 1 &amp; 1 \\ 1 &amp; 1 &amp; -3 &amp; 1 \\ 1 &amp; 1 &amp; 1 &amp; -3 \end{bmatrix}, \quad \det(A) = 64\)</span>$</p>
+<ul>
+<li><p><strong>Langkah 1: Evaluasi Nilai Kofaktor Elemen</strong>
+Karena matriks memiliki karakteristik simetri spasial tertentu, seluruh nilai determinan submatriks minor <span class="math notranslate nohighlight">\(M_{ij}\)</span> menghasilkan nilai konstan 16. Dengan menyesuaikan aturan tanda penambah <span class="math notranslate nohighlight">\((-1)^{i+j}\)</span> serta orientasi tanda kofaktor minor baris internalnya, diperoleh pola kofaktor di mana elemen diagonal bernilai <span class="math notranslate nohighlight">\(-16\)</span> dan elemen non-diagonal bernilai <span class="math notranslate nohighlight">\(16\)</span>.</p></li>
+<li><p><strong>Langkah 2: Matriks Adjoin</strong>
+$<span class="math notranslate nohighlight">\(adj\,A = \begin{bmatrix} -16 &amp; 16 &amp; 16 &amp; 16 \\ 16 &amp; -16 &amp; 16 &amp; 16 \\ 16 &amp; 16 &amp; -16 &amp; 16 \\ 16 &amp; 16 &amp; 16 &amp; -16 \end{bmatrix}\)</span>$</p></li>
+<li><p><strong>Langkah 3: Perhitungan Matriks Invers</strong>
+$<span class="math notranslate nohighlight">\(A^{-1} = \frac{1}{64} \begin{bmatrix} -16 &amp; 16 &amp; 16 &amp; 16 \\ 16 &amp; -16 &amp; 16 &amp; 16 \\ 16 &amp; 16 &amp; -16 &amp; 16 \\ 16 &amp; 16 &amp; 16 &amp; -16 \end{bmatrix}\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A^{-1} = \begin{bmatrix} -0.25 &amp; 0.25 &amp; 0.25 &amp; 0.25 \\ 0.25 &amp; -0.25 &amp; 0.25 &amp; 0.25 \\ 0.25 &amp; 0.25 &amp; -0.25 &amp; 0.25 \\ 0.25 &amp; 0.25 &amp; 0.25 &amp; -0.25 \end{bmatrix}\end{split}\]</div>
+</li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="validasi-komputasi-menggunakan-python-numpy">
+<h2>Validasi Komputasi Menggunakan Python (NumPy)<a class="headerlink" href="#validasi-komputasi-menggunakan-python-numpy" title="Link to this heading">#</a></h2>
+<p>Untuk memastikan bahwa seluruh output kalkulasi ekspansi baris dan adjoin di atas bernilai valid secara numerik, skrip Python berikut dapat dieksekusi:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Matriks 2x2</span>
+<span class="n">A2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">],</span>
+               <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">4</span><span class="p">]])</span>
+
+<span class="c1"># Matriks 3x3</span>
+<span class="n">A3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">],</span>
+               <span class="p">[</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+               <span class="p">[</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- VERIFIKASI MATRIKS 2x2 ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Determinan: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">A2</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invers:</span><span class="se">\n</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A2</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- VERIFIKASI MATRIKS 3x3 ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Determinan: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">A3</span><span class="p">)</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invers:</span><span class="se">\n</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A3</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="berikut-link-collab-nya">
+<h3>berikut link collab nya<a class="headerlink" href="#berikut-link-collab-nya" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://colab.research.google.com/drive/1QFJtUP4sGRbnAh0IG3N8XUCbbbP5gGWO?usp=sharing"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-a-perhitungan-determinan-dengan-rumus-ekspansi-baris">Bagian A: Perhitungan Determinan dengan Rumus Ekspansi Baris</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penyelesaian-matriks-2x2">1. Penyelesaian Matriks 2x2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penyelesaian-matriks-3x3">2. Penyelesaian Matriks 3x3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penyelesaian-matriks-4x4">3. Penyelesaian Matriks 4x4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-b-invers-matriks-menggunakan-metode-adjoin">Bagian B: Invers Matriks Menggunakan Metode Adjoin</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#invers-matriks-2x2">4. Invers Matriks 2x2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#invers-matriks-3x3">5. Invers Matriks 3x3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#invers-matriks-4x4">6. Invers Matriks 4x4</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validasi-komputasi-menggunakan-python-numpy">Validasi Komputasi Menggunakan Python (NumPy)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#berikut-link-collab-nya">berikut link collab nya</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE) &#8212; Catur Bintang Prastyo 25-165</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'materi6';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces" href="materi8.html" />
+    <link rel="prev" title="Tugas Eigenface (PCA)" href="materi5.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/foto kemeja putih.jpeg" class="logo__image only-light" alt="Catur Bintang Prastyo 25-165 - Home"/>
+    <img src="_static/foto kemeja putih.jpeg" class="logo__image only-dark pst-js-only" alt="Catur Bintang Prastyo 25-165 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="instro.html">introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi1.html">(SPL)Sistem Persaman Linier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi2.html">Tugas Transformasi sumbu Y menggunakan Translasi dan pencerminan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi3.html">Evaluasi Determinan Dan Invers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi4.html">Tugas Eliminasi Gauss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi5.html">Tugas Eigenface (PCA)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi8.html">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="materi9.html">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmateri6.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/materi6.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sifat-sifat-determinan-terhadap-operasi-baris-elementer-obe">1. Sifat-Sifat Determinan Terhadap Operasi Baris Elementer (OBE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritma-segitiga-atas">2. Algoritma Segitiga Atas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#studi-kasus-perhitungan-manual">3. Studi Kasus Perhitungan Manual</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-program-python-metode-eliminasi-gauss">4. Implementasi Program Python (Metode Eliminasi Gauss)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#berikut-link-collabnya">berikut link collabnya</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="tugas-komputasi-determinan-menggunakan-operasi-baris-elementer-obe">
+<h1>Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)<a class="headerlink" href="#tugas-komputasi-determinan-menggunakan-operasi-baris-elementer-obe" title="Link to this heading">#</a></h1>
+<p>Pada bab penutup ini, kita akan mempelajari pendekatan numerik untuk menghitung nilai determinan dari suatu matriks persegi menggunakan <strong>Operasi Baris Elementer (OBE)</strong>.</p>
+<p>Meskipun metode Sarrus dan Ekspansi Kofaktor sangat populer, kedua metode tersebut memiliki kompleksitas waktu faktorial <span class="math notranslate nohighlight">\(\mathcal{O}(n!)\)</span>, yang membuatnya sangat lambat dan tidak efisien untuk memproses matriks berdimensi besar di dalam ilmu komputer. Sebagai solusinya, kita menggunakan metode eliminasi Gauss (OBE) yang memiliki kompleksitas jauh lebih cepat, yaitu <span class="math notranslate nohighlight">\(\mathcal{O}(n^3)\)</span>.</p>
+<hr class="docutils" />
+<section id="sifat-sifat-determinan-terhadap-operasi-baris-elementer-obe">
+<h2>1. Sifat-Sifat Determinan Terhadap Operasi Baris Elementer (OBE)<a class="headerlink" href="#sifat-sifat-determinan-terhadap-operasi-baris-elementer-obe" title="Link to this heading">#</a></h2>
+<p>Saat kita melakukan transformasi baris pada matriks untuk membentuk matriks segitiga atas, setiap jenis operasi baris akan memberikan efek yang berbeda terhadap nilai determinan asli. Berikut adalah tiga aturan dasar yang wajib diperhatikan:</p>
+<ol class="arabic simple">
+<li><p><strong>Pertukaran Dua Baris (<span class="math notranslate nohighlight">\(R_i \leftrightarrow R_j\)</span>):</strong> Jika dua baris pada matriks saling ditukar posisinya, maka nilai determinan matriks baru akan menjadi negatif dari determinan sebelumnya.
+$<span class="math notranslate nohighlight">\(\det(A_{\text{baru}}) = -\det(A_{\text{lama}})\)</span>$</p></li>
+<li><p><strong>Perkalian Baris dengan Konstanta Skalar (<span class="math notranslate nohighlight">\(k \cdot R_i \rightarrow R_i\)</span>):</strong> Jika suatu baris dikalikan dengan konstanta skalar bukan nol <span class="math notranslate nohighlight">\(k\)</span>, maka nilai determinan matriks juga akan ikut terkali dengan konstanta <span class="math notranslate nohighlight">\(k\)</span> tersebut.
+$<span class="math notranslate nohighlight">\(\det(A_{\text{baru}}) = k \cdot \det(A_{\text{lama}})\)</span>$</p></li>
+<li><p><strong>Penjumlahan Kelipatan Baris (<span class="math notranslate nohighlight">\(R_i + k \cdot R_j \rightarrow R_i\)</span>):</strong> Jika suatu baris ditambahkan dengan kelipatan baris lainnya, maka <strong>nilai determinan matriks tidak berubah sama sekali</strong>.
+$<span class="math notranslate nohighlight">\(\det(A_{\text{baru}}) = \det(A_{\text{lama}})\)</span>$</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="algoritma-segitiga-atas">
+<h2>2. Algoritma Segitiga Atas<a class="headerlink" href="#algoritma-segitiga-atas" title="Link to this heading">#</a></h2>
+<p>Strategi utama dari metode ini adalah memanfaatkan Operasi Baris Elementer (khususnya aturan nomor 3 agar tidak mengubah nilai determinan) untuk menyulap matriks acak <span class="math notranslate nohighlight">\(A\)</span> menjadi Matriks Segitiga Atas (<span class="math notranslate nohighlight">\(U\)</span>).</p>
+<p>Setelah matriks berhasil dikonversi menjadi matriks segitiga atas (di mana seluruh elemen di bawah diagonal utamanya bernilai 0), maka nilai determinannya secara otomatis adalah <strong>hasil perkalian dari seluruh elemen yang berada di diagonal utamanya</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\det(A) = (-1)^s \cdot \prod_{i=1}^{n} u_{ii}\]</div>
+<p><em>Di mana <span class="math notranslate nohighlight">\(s\)</span> adalah jumlah total berapa kali kita melakukan operasi pertukaran baris selama proses eliminasi.</em></p>
+</section>
+<hr class="docutils" />
+<section id="studi-kasus-perhitungan-manual">
+<h2>3. Studi Kasus Perhitungan Manual<a class="headerlink" href="#studi-kasus-perhitungan-manual" title="Link to this heading">#</a></h2>
+<p>Misalkan kita memiliki matriks persegi <span class="math notranslate nohighlight">\(A\)</span> berukuran <span class="math notranslate nohighlight">\(3 \times 3\)</span> sebagai berikut:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}A = \begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 4 &amp; 3 &amp; 3 \\ 2 &amp; 4 &amp; 9 \end{bmatrix}\end{split}\]</div>
+<p>Mari kita hitung nilai determinannya menggunakan langkah-langkah OBE:</p>
+<ul class="simple">
+<li><p><strong>Langkah 1:</strong> Eliminasi elemen di bawah poros <span class="math notranslate nohighlight">\(a_{11} = 2\)</span>.
+Kita bersihkan angka 4 pada baris kedua menggunakan operasi: <span class="math notranslate nohighlight">\(R_2 - 2R_1 \rightarrow R_2\)</span>
+$<span class="math notranslate nohighlight">\(\begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 4 - 2(2) &amp; 3 - 2(1) &amp; 3 - 2(1) \\ 2 &amp; 4 &amp; 9 \end{bmatrix} = \begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 2 &amp; 4 &amp; 9 \end{bmatrix}\)</span>$
+<em>(Ingat: Operasi ini tidak mengubah nilai determinan)</em></p></li>
+<li><p><strong>Langkah 2:</strong> Bersihkan angka 2 pada baris ketiga kolom pertama menggunakan operasi: <span class="math notranslate nohighlight">\(R_3 - 1R_1 \rightarrow R_3\)</span>
+$<span class="math notranslate nohighlight">\(\begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 2 - 1(2) &amp; 4 - 1(1) &amp; 9 - 1(1) \end{bmatrix} = \begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 3 &amp; 8 \end{bmatrix}\)</span>$</p></li>
+<li><p><strong>Langkah 3:</strong> Eliminasi elemen di bawah poros baru <span class="math notranslate nohighlight">\(a_{22} = 1\)</span>.
+Kita bersihkan angka 3 pada baris ketiga kolom kedua menggunakan operasi: <span class="math notranslate nohighlight">\(R_3 - 3R_2 \rightarrow R_3\)</span>
+$<span class="math notranslate nohighlight">\(\begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 3 - 3(1) &amp; 8 - 3(1) \end{bmatrix} = \begin{bmatrix} 2 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 5 \end{bmatrix}\)</span>$</p></li>
+</ul>
+<p>Sekarang, matriks telah sukses bertransformasi menjadi <strong>Matriks Segitiga Atas</strong>.</p>
+<ul class="simple">
+<li><p><strong>Langkah Akhir:</strong> Kalikan seluruh elemen diagonal utamanya.
+$<span class="math notranslate nohighlight">\(\det(A) = 2 \cdot 1 \cdot 5 = 10\)</span>$</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="implementasi-program-python-metode-eliminasi-gauss">
+<h2>4. Implementasi Program Python (Metode Eliminasi Gauss)<a class="headerlink" href="#implementasi-program-python-metode-eliminasi-gauss" title="Link to this heading">#</a></h2>
+<p>Berikut adalah kode program lengkap berbasis Python menggunakan pustaka NumPy untuk menghitung determinan dengan metode OBE secara bertahap:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">hitung_determinan_obe</span><span class="p">(</span><span class="n">matriks_awal</span><span class="p">):</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">matriks_awal</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">determinan_sign</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;COMPUTATIONAL DETERMINAN MATRIKS VIA OBE&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matriks Awal A:</span><span class="se">\n</span><span class="si">{</span><span class="n">A</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Proses Eliminasi Gauss</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="c1"># 1. Antisipasi jika elemen pivot bernilai 0 (Pertukaran Baris)</span>
+        <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">A</span><span class="p">[[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]]</span> <span class="c1"># Tukar baris i dan j</span>
+                    <span class="n">determinan_sign</span> <span class="o">*=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="c1"># Aturan OBE 1: Tanda determinan berbalik</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-&gt; Mengubah Baris: R</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> &lt;-&gt; R</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> (Tanda Determinan Dikali -1)&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+
+        <span class="c1"># 2. Proses Eliminasi elemen di bawah pivot</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">faktor</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+                <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">faktor</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="c1"># Aturan OBE 3: Determinan konstan</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-&gt; Operasi Baris: R</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> - (</span><span class="si">{</span><span class="n">faktor</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">)*R</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> -&gt; R</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Matriks Hasil Transformasi Segitiga Atas (U):&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+    <span class="c1"># 3. Menghitung hasil perkalian elemen diagonal utama</span>
+    <span class="n">elemen_diagonal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    <span class="n">perkalian_diagonal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">elemen_diagonal</span><span class="p">)</span>
+
+    <span class="n">determinan_akhir</span> <span class="o">=</span> <span class="n">determinan_sign</span> <span class="o">*</span> <span class="n">perkalian_diagonal</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ANALISIS KESIMPULAN NUMERIK:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elemen Diagonal Utama : </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">elemen_diagonal</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Faktor Pengali Tanda  : </span><span class="si">{</span><span class="n">determinan_sign</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nilai Determinan (det) : </span><span class="si">{</span><span class="n">determinan_akhir</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">determinan_akhir</span>
+
+<span class="c1"># --- EKSEKUSI DATA UJI ---</span>
+<span class="n">Matriks_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">det_A</span> <span class="o">=</span> <span class="n">hitung_determinan_obe</span><span class="p">(</span><span class="n">Matriks_A</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="berikut-link-collabnya">
+<h3>berikut link collabnya<a class="headerlink" href="#berikut-link-collabnya" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="https://colab.research.google.com/drive/1XDU4Czy9K_GSH3dP6pO574DA-DuYcIDa?usp=sharing"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="materi5.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tugas Eigenface (PCA)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="materi8.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sifat-sifat-determinan-terhadap-operasi-baris-elementer-obe">1. Sifat-Sifat Determinan Terhadap Operasi Baris Elementer (OBE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algoritma-segitiga-atas">2. Algoritma Segitiga Atas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#studi-kasus-perhitungan-manual">3. Studi Kasus Perhitungan Manual</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-program-python-metode-eliminasi-gauss">4. Implementasi Program Python (Metode Eliminasi Gauss)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#berikut-link-collabnya">berikut link collabnya</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

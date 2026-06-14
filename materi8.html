@@ -1,0 +1,1157 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces &#8212; Catur Bintang Prastyo 25-165</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'materi8';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’" href="materi9.html" />
+    <link rel="prev" title="Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)" href="materi6.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/foto kemeja putih.jpeg" class="logo__image only-light" alt="Catur Bintang Prastyo 25-165 - Home"/>
+    <img src="_static/foto kemeja putih.jpeg" class="logo__image only-dark pst-js-only" alt="Catur Bintang Prastyo 25-165 - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to your Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="instro.html">introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi1.html">(SPL)Sistem Persaman Linier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi2.html">Tugas Transformasi sumbu Y menggunakan Translasi dan pencerminan</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi3.html">Evaluasi Determinan Dan Invers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi4.html">Tugas Eliminasi Gauss</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi5.html">Tugas Eigenface (PCA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="materi6.html">Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="materi9.html">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmateri8.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/materi8.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-program">File Program</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-program">1. Tujuan Program</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#library-yang-harus-diinstall">2. Library yang Harus Diinstall</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-python">Install Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-dependensi">Install Dependensi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#library-yang-digunakan">Library yang digunakan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-dataset">struktur dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan">Penjelasan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-menjalankan-program">4. Cara Menjalankan Program</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menjalankan-mode-demo">Menjalankan Mode Demo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode-demo-akan">Mode demo akan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-besar-program">5. Alur Besar Program</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-step-by-step-pengolahan-data">6. Penjelasan Step-by-Step Pengolahan Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-utama">Kode utama:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yang-terjadi">Yang terjadi:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh">Contoh:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maka">Maka:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-membaca-gambar">STEP 2 — Membaca Gambar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi">Fungsi:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kode">Kode:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yang-dilakukan">Yang dilakukan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-membuka-gambar">a. Membuka gambar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gambar-dibaca-dari-file">Gambar dibaca dari file.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-mengubah-ke-grayscale">b. Mengubah ke grayscale</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gambar-rgb">Gambar RGB:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diubah-menjadi">diubah menjadi:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuannya">Tujuannya:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-resize-gambar">c. Resize gambar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Contoh:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-mengubah-gambar-menjadi-matriks">STEP 3 — Mengubah Gambar Menjadi Matriks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-flatten-menjadi-vektor">STEP 4 — Flatten Menjadi Vektor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-matriks">Contoh Matriks:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-membentuk-matriks-training-x">STEP 5 — Membentuk Matriks Training X</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-menghitung-mean-face">STEP 6 — Menghitung Mean Face</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-centering-data">STEP 7 — Centering Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-singular-value-decomposition-svd">STEP 8 — Singular Value Decomposition (SVD)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-komponen-matriks-hasil-dekomposisi">Penjelasan komponen matriks hasil dekomposisi:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-eigenface">Apa itu Eigenface?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-9-memilih-komponen-penting">STEP 9 — Memilih Komponen Penting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-10-proyeksi-wajah-training">STEP 10 — Proyeksi Wajah Training</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-11-memproses-wajah-test">STEP 11 — Memproses Wajah Test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-12-menghitung-jarak">STEP 12 — Menghitung Jarak</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-13-menentukan-prediksi">STEP 13 — Menentukan Prediksi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-14-threshold">STEP 14 — Threshold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-yang-dihasilkan">7. Visualisasi yang Dihasilkan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-fungsi-penting">8. Penjelasan Fungsi Penting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-penting-yang-dipakai">9. Rumus Penting yang Dipakai</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-face">Mean Face</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#centering">Centering</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#svd">SVD</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-eigenface">Proyeksi Eigenface</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-program">10. Output Program</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-cara-kerja-program">11. Kesimpulan Cara Kerja Program</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dokumentasi-cara-kerja-program-face-recognition-dengan-svd-eigenfaces">
+<h1>Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces<a class="headerlink" href="#dokumentasi-cara-kerja-program-face-recognition-dengan-svd-eigenfaces" title="Link to this heading">#</a></h1>
+<section id="file-program">
+<h2>File Program<a class="headerlink" href="#file-program" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pengenalan</span> <span class="pre">copy.py</span></code></p>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="tujuan-program">
+<h1>1. Tujuan Program<a class="headerlink" href="#tujuan-program" title="Link to this heading">#</a></h1>
+<p>Program ini digunakan untuk melakukan <strong>pengenalan wajah (face recognition)</strong> menggunakan metode:</p>
+<ul class="simple">
+<li><p>Singular Value Decomposition (SVD)</p></li>
+<li><p>Eigenfaces</p></li>
+<li><p>Euclidean Distance</p></li>
+</ul>
+<p>Secara sederhana:</p>
+<ol class="arabic simple">
+<li><p>Gambar wajah dibaca</p></li>
+<li><p>Diubah menjadi angka/matriks</p></li>
+<li><p>Direduksi dimensinya menggunakan SVD</p></li>
+<li><p>Dibandingkan tingkat kemiripannya</p></li>
+<li><p>Dipilih wajah paling mirip</p></li>
+</ol>
+<p>Karena manusia rupanya suka mengubah wajah menjadi ribuan angka lalu memaksa matriks mencari identitas seseorang. Dunia benar-benar memberi aljabar linear pekerjaan yang aneh.</p>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="library-yang-harus-diinstall">
+<h1>2. Library yang Harus Diinstall<a class="headerlink" href="#library-yang-harus-diinstall" title="Link to this heading">#</a></h1>
+<p>Program membutuhkan beberapa library Python.</p>
+<section id="install-python">
+<h2>Install Python<a class="headerlink" href="#install-python" title="Link to this heading">#</a></h2>
+<p>Gunakan:</p>
+<ul class="simple">
+<li><p>Python 3.10+</p></li>
+<li><p>Disarankan Python 3.11 atau 3.12</p></li>
+</ul>
+<p>Cek versi:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>--version
+</pre></div>
+</div>
+<section id="install-dependensi">
+<h3>Install Dependensi<a class="headerlink" href="#install-dependensi" title="Link to this heading">#</a></h3>
+<p>Jalankan:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>pillow
+</pre></div>
+</div>
+</section>
+<section id="library-yang-digunakan">
+<h3>Library yang digunakan:<a class="headerlink" href="#library-yang-digunakan" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Library</p></th>
+<th class="head"><p>Fungsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code></p></td>
+<td><p>Operasi matriks dan SVD</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Pillow</span></code></p></td>
+<td><p>Membaca dan memproses gambar</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">argparse</span></code></p></td>
+<td><p>Membaca argumen terminal</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">math</span></code></p></td>
+<td><p>Operasi matematika</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tempfile</span></code></p></td>
+<td><p>Membuat dataset demo</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pathlib</span></code></p></td>
+<td><p>Mengelola path file/folder</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="docutils" />
+<section id="struktur-dataset">
+<h3>struktur dataset<a class="headerlink" href="#struktur-dataset" title="Link to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dataset/
+│
+├── train/
+│ ├── face1/
+│ │ ├── img1.jpg
+│ │ ├── img2.jpg
+│ │
+│ ├── face2/
+│ ├── foto1.jpg
+│ ├── foto2.jpg
+│
+└── test.jpg
+</pre></div>
+</div>
+</section>
+<section id="penjelasan">
+<h3>Penjelasan:<a class="headerlink" href="#penjelasan" title="Link to this heading">#</a></h3>
+<p>Folder train berisi data training</p>
+<p>Setiap subfolder dianggap 1 orang</p>
+<p>Nama folder menjadi label identitas</p>
+<p>test.jpg adalah gambar yang ingin dikenali</p>
+</section>
+<section id="cara-menjalankan-program">
+<h3>4. Cara Menjalankan Program<a class="headerlink" href="#cara-menjalankan-program" title="Link to this heading">#</a></h3>
+<p>Menjalankan Dataset Asli</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span><span class="s2">&quot;pengenalan copy.py&quot;</span><span class="w"> </span>--train<span class="w"> </span>dataset/train<span class="w"> </span>--test<span class="w"> </span>dataset/test.jpg<span class="w"> </span>--size<span class="w"> </span>64x64
+</pre></div>
+</div>
+</section>
+<section id="menjalankan-mode-demo">
+<h3>Menjalankan Mode Demo<a class="headerlink" href="#menjalankan-mode-demo" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span><span class="s2">&quot;pengenalan copy.py&quot;</span><span class="w"> </span>--demo
+</pre></div>
+</div>
+</section>
+<section id="mode-demo-akan">
+<h3>Mode demo akan:<a class="headerlink" href="#mode-demo-akan" title="Link to this heading">#</a></h3>
+<p>membuat dataset wajah palsu otomatis</p>
+<p>menjalankan SVD</p>
+<p>melakukan pengenalan wajah</p>
+<hr class="docutils" />
+<p>Jadi bahkan kalau belum punya dataset asli, program tetap bisa diuji. Komputer membuat wajah sintetis untuk membuktikan matematika bekerja. Sedikit menyeramkan kalau dipikir terlalu lama.</p>
+</section>
+<section id="alur-besar-program">
+<h3>5. Alur Besar Program<a class="headerlink" href="#alur-besar-program" title="Link to this heading">#</a></h3>
+<p>Secara umum program bekerja seperti ini:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Load gambar
+↓
+Ubah grayscale
+↓
+Resize gambar
+↓
+Flatten menjadi vektor
+↓
+Gabungkan menjadi matriks X
+↓
+Hitung mean face
+↓
+Centering data
+↓
+Lakukan SVD
+↓
+Ambil eigenface
+↓
+Proyeksikan wajah
+↓
+Hitung jarak Euclidean
+↓
+Pilih wajah paling mirip
+</pre></div>
+</div>
+</section>
+<section id="penjelasan-step-by-step-pengolahan-data">
+<h3>6. Penjelasan Step-by-Step Pengolahan Data<a class="headerlink" href="#penjelasan-step-by-step-pengolahan-data" title="Link to this heading">#</a></h3>
+<p>STEP 1 — Membaca Dataset</p>
+<p>Fungsi:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>load_training_images<span class="o">()</span>
+</pre></div>
+</div>
+</section>
+<section id="kode-utama">
+<h3>Kode utama:<a class="headerlink" href="#kode-utama" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">person_dir</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">path</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">train_dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()):</span>
+</pre></div>
+</div>
+</section>
+<section id="yang-terjadi">
+<h3>Yang terjadi:<a class="headerlink" href="#yang-terjadi" title="Link to this heading">#</a></h3>
+<p>Program membuka folder training</p>
+<p>Membaca semua subfolder</p>
+<p>Nama subfolder dianggap label orang</p>
+<p>Semua gambar di dalamnya dimuat</p>
+</section>
+<section id="contoh">
+<h3>Contoh:<a class="headerlink" href="#contoh" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>train/
+ ├── face1/
+ ├── face2/
+</pre></div>
+</div>
+</section>
+<section id="maka">
+<h3>Maka:<a class="headerlink" href="#maka" title="Link to this heading">#</a></h3>
+<p>label face1</p>
+<p>label face2</p>
+</section>
+<section id="step-2-membaca-gambar">
+<h3>STEP 2 — Membaca Gambar<a class="headerlink" href="#step-2-membaca-gambar" title="Link to this heading">#</a></h3>
+</section>
+<section id="fungsi">
+<h3>Fungsi:<a class="headerlink" href="#fungsi" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>load_grayscale_image<span class="o">()</span>
+</pre></div>
+</div>
+</section>
+<section id="kode">
+<h3>Kode:<a class="headerlink" href="#kode" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="yang-dilakukan">
+<h3>Yang dilakukan:<a class="headerlink" href="#yang-dilakukan" title="Link to this heading">#</a></h3>
+</section>
+<section id="a-membuka-gambar">
+<h3>a. Membuka gambar<a class="headerlink" href="#a-membuka-gambar" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Image.open<span class="o">(</span>path<span class="o">)</span>
+</pre></div>
+</div>
+</section>
+<section id="gambar-dibaca-dari-file">
+<h3>Gambar dibaca dari file.<a class="headerlink" href="#gambar-dibaca-dari-file" title="Link to this heading">#</a></h3>
+</section>
+<section id="b-mengubah-ke-grayscale">
+<h3>b. Mengubah ke grayscale<a class="headerlink" href="#b-mengubah-ke-grayscale" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.convert<span class="o">(</span><span class="s2">&quot;L&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+</section>
+<section id="gambar-rgb">
+<h3>Gambar RGB:<a class="headerlink" href="#gambar-rgb" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Merah Hijau Biru
+</pre></div>
+</div>
+</section>
+<section id="diubah-menjadi">
+<h3>diubah menjadi:<a class="headerlink" href="#diubah-menjadi" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>1 channel abu-abu
+</pre></div>
+</div>
+</section>
+<section id="tujuannya">
+<h3>Tujuannya:<a class="headerlink" href="#tujuannya" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>komputasi lebih ringan</p></li>
+<li><p>lebih mudah diproses matriks</p></li>
+</ul>
+<p>Karena SVD tidak peduli warna kulit, hanya pola intensitas cahaya.</p>
+</section>
+<section id="c-resize-gambar">
+<h3>c. Resize gambar<a class="headerlink" href="#c-resize-gambar" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.resize<span class="o">(</span>size<span class="o">)</span>
+Semua<span class="w"> </span>gambar<span class="w"> </span>harus<span class="w"> </span>sama<span class="w"> </span>ukuran.
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h3>Contoh:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>64 x 64
+</pre></div>
+</div>
+<p>Kenapa penting?
+Karena matriks harus punya dimensi sama.</p>
+<p>Kalau satu gambar 64x64 dan lainnya 300x500, SVD akan protes secara matematis. Dan untuk sekali ini, protesnya valid.</p>
+</section>
+<section id="step-3-mengubah-gambar-menjadi-matriks">
+<h3>STEP 3 — Mengubah Gambar Menjadi Matriks<a class="headerlink" href="#step-3-mengubah-gambar-menjadi-matriks" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.0</span>
+</pre></div>
+</div>
+<p>hasilnya</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[[0.1 0.2 0.3]
+ [0.5 0.8 0.1]]
+</pre></div>
+</div>
+<p>Setiap piksel menjadi angka antara:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\rightarrow\)</span> hitam1</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rightarrow\)</span> putih</p></li>
+</ul>
+</section>
+<section id="step-4-flatten-menjadi-vektor">
+<h3>STEP 4 — Flatten Menjadi Vektor<a class="headerlink" href="#step-4-flatten-menjadi-vektor" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vector</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="contoh-matriks">
+<h3>Contoh Matriks:<a class="headerlink" href="#contoh-matriks" title="Link to this heading">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[[1 2]
+ [3 4]]
+</pre></div>
+</div>
+<p>Menjadi Vektor Kolom:
+$<span class="math notranslate nohighlight">\(\begin{bmatrix} 1 \\ 2 \\ 3 \\ 4 \end{bmatrix}\)</span>$</p>
+<p>Kenapa dilakukan?
+Karena algoritma SVD bekerja pada bentuk vektor.</p>
+</section>
+<section id="step-5-membentuk-matriks-training-x">
+<h3>STEP 5 — Membentuk Matriks Training X<a class="headerlink" href="#step-5-membentuk-matriks-training-x" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Semua vektor digabung:
+$<span class="math notranslate nohighlight">\(X = [x_1 \quad x_2 \quad x_3 \quad \dots \quad x_n]\)</span><span class="math notranslate nohighlight">\(Contoh susunan kolom:\)</span><span class="math notranslate nohighlight">\(\begin{bmatrix} 1 &amp; 4 &amp; 7 \\ 2 &amp; 5 &amp; 8 \\ 3 &amp; 6 &amp; 9 \end{bmatrix}\)</span>$
+Makna:</p>
+<ul class="simple">
+<li><p>setiap kolom = 1 wajah</p></li>
+<li><p>setiap baris = nilai piksel tertentu</p></li>
+</ul>
+</section>
+<section id="step-6-menghitung-mean-face">
+<h3>STEP 6 — Menghitung Mean Face<a class="headerlink" href="#step-6-menghitung-mean-face" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mean_face</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Program menghitung wajah rata-rata.</p>
+<p>Secara matematis:</p>
+<div class="math notranslate nohighlight">
+\[\mu = \text{rata-rata seluruh wajah}\]</div>
+<p>Hasilnya disebut mean face. Ini penting karena algoritma ingin mencari perbedaan wajah terhadap wajah rata-rata.</p>
+</section>
+<section id="step-7-centering-data">
+<h3>STEP 7 — Centering Data<a class="headerlink" href="#step-7-centering-data" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">centered_matrix</span> <span class="o">=</span> <span class="n">x_matrix</span> <span class="o">-</span> <span class="n">mean_face</span>
+</pre></div>
+</div>
+<p>Artinya: Setiap gambar dikurangi wajah rata-rata.</p>
+<p>Kenapa? Karena PCA/SVD bekerja lebih baik jika data dipusatkan terhadap mean. Kalau tidak dicenter, variasi data sulit dianalisis dan eigenface kurang representatif.</p>
+</section>
+<section id="step-8-singular-value-decomposition-svd">
+<h3>STEP 8 — Singular Value Decomposition (SVD)<a class="headerlink" href="#step-8-singular-value-decomposition-svd" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">u_matrix</span><span class="p">,</span> <span class="n">singular_values</span><span class="p">,</span> <span class="n">vt_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">centered_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Inilah inti program.
+Rumus:
+$<span class="math notranslate nohighlight">\(A = U \Sigma V^T\)</span>$</p>
+</section>
+<section id="penjelasan-komponen-matriks-hasil-dekomposisi">
+<h3>Penjelasan komponen matriks hasil dekomposisi:<a class="headerlink" href="#penjelasan-komponen-matriks-hasil-dekomposisi" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>matriks</p></th>
+<th class="head"><p>Fungsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(U\)</span></p></td>
+<td><p>Basis fitur wajah</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\Sigma\)</span></p></td>
+<td><p>Besarnya informasi</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(V^T\)</span></p></td>
+<td><p>Koefisien transformasi</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="apa-itu-eigenface">
+<h3>Apa itu Eigenface?<a class="headerlink" href="#apa-itu-eigenface" title="Link to this heading">#</a></h3>
+<p>Kolom pada matriks <span class="math notranslate nohighlight">\(U\)</span> disebut eigenface.Eigenface adalah pola wajah utama yang ditemukan sistem. Bukan wajah manusia normal. Lebih seperti mimpi buruk statistik abu-abu hasil kompresi matematika.</p>
+</section>
+<section id="step-9-memilih-komponen-penting">
+<h3>STEP 9 — Memilih Komponen Penting<a class="headerlink" href="#step-9-memilih-komponen-penting" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">u_k</span> <span class="o">=</span> <span class="n">u_matrix</span><span class="p">[:,</span> <span class="p">:</span><span class="n">component_count</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Program hanya mengambil beberapa komponen terbaik.</p>
+<p>Kenapa? Karena komponen besar melambangkan informasi penting, sedangkan komponen kecil melambangkan noise.</p>
+<p>Tujuannya adalah reduksi dimensi:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>4096 piksel  ↓  20 fitur penting
+</pre></div>
+</div>
+</section>
+<section id="step-10-proyeksi-wajah-training">
+<h3>STEP 10 — Proyeksi Wajah Training<a class="headerlink" href="#step-10-proyeksi-wajah-training" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_weights</span> <span class="o">=</span> <span class="n">u_k</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">centered_matrix</span>
+</pre></div>
+</div>
+<p>Artinya: Semua wajah training diproyeksikan ke ruang eigenface.</p>
+<p>Hasilnya, setiap wajah berubah menjadi bobot fitur murni.</p>
+</section>
+<section id="step-11-memproses-wajah-test">
+<h3>STEP 11 — Memproses Wajah Test<a class="headerlink" href="#step-11-memproses-wajah-test" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_centered</span> <span class="o">=</span> <span class="n">test_image</span><span class="o">.</span><span class="n">vector</span> <span class="o">-</span> <span class="n">mean_face</span>
+</pre></div>
+</div>
+<p>lalu</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_weights</span> <span class="o">=</span> <span class="n">u_k</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">test_centered</span>
+</pre></div>
+</div>
+<p>Artinya:</p>
+<p>Gambar test dikurangi mean face.</p>
+<p>Hasilnya diproyeksikan ke ruang eigenface.</p>
+</section>
+<section id="step-12-menghitung-jarak">
+<h3>STEP 12 — Menghitung Jarak<a class="headerlink" href="#step-12-menghitung-jarak" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">test_weights</span> <span class="o">-</span> <span class="n">train_weights</span><span class="p">[:,</span> <span class="p">[</span><span class="n">index</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Program menghitung jarak Euclidean. Semakin kecil nilai jaraknya, berarti semakin mirip wajahnya.</p>
+</section>
+<section id="step-13-menentukan-prediksi">
+<h3>STEP 13 — Menentukan Prediksi<a class="headerlink" href="#step-13-menentukan-prediksi" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">distances</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Program mencari jarak terkecil.</p>
+<p>Contoh urutan data:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Label</p></th>
+<th class="head"><p>Jarak</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>face1</p></td>
+<td><p>0.21</p></td>
+</tr>
+<tr class="row-odd"><td><p>face2</p></td>
+<td><p>1.90</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Maka kesimpulannya, objek test.jpg jauh lebih mirip dengan face1.</p>
+</section>
+<section id="step-14-threshold">
+<h3>STEP 14 — Threshold<a class="headerlink" href="#step-14-threshold" title="Link to this heading">#</a></h3>
+<p>Kode:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">accepted</span> <span class="o">=</span> <span class="n">nearest_distance</span> <span class="o">&lt;=</span> <span class="n">computed_threshold</span>
+</pre></div>
+</div>
+<p>Threshold digunakan untuk menentukan apakah wajah dikenali atau tidak. Kalau jaraknya terlalu besar, output yang keluar adalah UNKNOWN.</p>
+<p>Karena sistem sadar dia tidak tahu siapa orang itu. Langkah langka dalam sejarah teknologi.</p>
+</section>
+<section id="visualisasi-yang-dihasilkan">
+<h3>7. Visualisasi yang Dihasilkan<a class="headerlink" href="#visualisasi-yang-dihasilkan" title="Link to this heading">#</a></h3>
+<p>Program juga membuat beberapa gambar analisis:</p>
+<p>Mean Face: Rata-rata dari semua wajah sampel.</p>
+<p>Centered Face: Tampilan wajah setelah dikurangi komponen mean.</p>
+<p>Eigenface: Pola fitur utama wajah hasil dekomposisi SVD.</p>
+<p>Reconstruction: Hasil wajah yang disusun kembali dari komponen eigenface.</p>
+<p>Error Image: Selisih atau perbedaan antara wajah asli dengan hasil rekonstruksi.</p>
+</section>
+<section id="penjelasan-fungsi-penting">
+<h3>8. Penjelasan Fungsi Penting<a class="headerlink" href="#penjelasan-fungsi-penting" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>parse_size(): Mengubah string input “64x64” menjadi format tuple (64, 64).</p></li>
+<li><p>image_paths(): Mencari dan mendaftar semua file gambar di direktori.</p></li>
+<li><p>normalize_to_uint8(): Mengubah nilai matriks kembali agar bisa divisualisasikan menjadi citra standar.- matrix_to_image(): Mengonversi array matriks menjadi objek gambar utuh.</p></li>
+<li><p>save_grid(): Menggabungkan banyak gambar analisis menjadi satu grid gambar komposit.</p></li>
+<li><p>choose_threshold(): Menghitung batas toleransi threshold otomatis berdasarkan sebaran data training.</p></li>
+<li><p>recognize_with_svd(): Fungsi inti seluruh algoritma, di mana semua pemrosesan utama terjadi di sini.</p></li>
+</ul>
+</section>
+<section id="rumus-penting-yang-dipakai">
+<h3>9. Rumus Penting yang Dipakai<a class="headerlink" href="#rumus-penting-yang-dipakai" title="Link to this heading">#</a></h3>
+<section id="mean-face">
+<h4>Mean Face<a class="headerlink" href="#mean-face" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[\mu = \text{rata-rata seluruh wajah}\]</div>
+</section>
+<section id="centering">
+<h4>Centering<a class="headerlink" href="#centering" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[A = X - \mu\]</div>
+</section>
+<section id="svd">
+<h4>SVD<a class="headerlink" href="#svd" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[A = U \Sigma V^T\]</div>
+</section>
+<section id="proyeksi-eigenface">
+<h4>Proyeksi Eigenface<a class="headerlink" href="#proyeksi-eigenface" title="Link to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[W = U^T A$$Euclidean Distance$$d = \|x - y\|\]</div>
+</section>
+</section>
+<section id="output-program">
+<h3>10. Output Program<a class="headerlink" href="#output-program" title="Link to this heading">#</a></h3>
+<p>Program menghasilkan dua komponen keluaran utama:</p>
+<ul class="simple">
+<li><p>File laporan (laporan_svd.txt): Berisi salinan matriks, nilai singular, hasil prediksi, bobot jarak, dan komponen eigenface.</p></li>
+<li><p>Folder visualisasi (hasil_analisis_svd/): Berisi berkas gambar mean face, eigenface, grafik perkembangan singular value, hingga visualisasi reconstruction.</p></li>
+</ul>
+</section>
+<section id="kesimpulan-cara-kerja-program">
+<h3>11. Kesimpulan Cara Kerja Program<a class="headerlink" href="#kesimpulan-cara-kerja-program" title="Link to this heading">#</a></h3>
+<p>Secara singkat:</p>
+<ol class="arabic simple">
+<li><p>Gambar diubah menjadi angka.</p></li>
+<li><p>Angka diproses menjadi matriks.</p></li>
+<li><p>SVD mencari pola utama wajah (eigenfaces).</p></li>
+<li><p>Wajah diproyeksikan ke ruang fitur rendah.</p></li>
+<li><p>Jarak spasial dihitung.</p></li>
+<li><p>Wajah terdekat dipilih sebagai hasil pengenalan.</p></li>
+</ol>
+<p>Program ini sebenarnya adalah gabungan dari pengolahan citra, aljabar linear, reduksi dimensi, dan klasifikasi sederhana. Menariknya, inti pengenalan wajah di sini bukan AI modern berat miliaran parameter, tapi matematika klasik yang sudah ada sejak lama. Kadang solusi elegan memang tidak perlu GPU seharga motor.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="materi6.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tugas Komputasi Determinan Menggunakan Operasi Baris Elementer (OBE)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="materi9.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">PROJECT TUGAS: Pengenalan Wajah (Eigenface) Menggunakan SVD dengan Folder ‘faces’</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Dokumentasi Cara Kerja Program Face Recognition dengan SVD / Eigenfaces</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-program">File Program</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-program">1. Tujuan Program</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#library-yang-harus-diinstall">2. Library yang Harus Diinstall</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-python">Install Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-dependensi">Install Dependensi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#library-yang-digunakan">Library yang digunakan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#struktur-dataset">struktur dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan">Penjelasan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cara-menjalankan-program">4. Cara Menjalankan Program</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#menjalankan-mode-demo">Menjalankan Mode Demo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mode-demo-akan">Mode demo akan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#alur-besar-program">5. Alur Besar Program</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-step-by-step-pengolahan-data">6. Penjelasan Step-by-Step Pengolahan Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kode-utama">Kode utama:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yang-terjadi">Yang terjadi:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh">Contoh:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maka">Maka:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-membaca-gambar">STEP 2 — Membaca Gambar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fungsi">Fungsi:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kode">Kode:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yang-dilakukan">Yang dilakukan:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-membuka-gambar">a. Membuka gambar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gambar-dibaca-dari-file">Gambar dibaca dari file.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-mengubah-ke-grayscale">b. Mengubah ke grayscale</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gambar-rgb">Gambar RGB:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diubah-menjadi">diubah menjadi:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuannya">Tujuannya:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-resize-gambar">c. Resize gambar</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Contoh:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-mengubah-gambar-menjadi-matriks">STEP 3 — Mengubah Gambar Menjadi Matriks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-flatten-menjadi-vektor">STEP 4 — Flatten Menjadi Vektor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-matriks">Contoh Matriks:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-membentuk-matriks-training-x">STEP 5 — Membentuk Matriks Training X</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-menghitung-mean-face">STEP 6 — Menghitung Mean Face</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-centering-data">STEP 7 — Centering Data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-8-singular-value-decomposition-svd">STEP 8 — Singular Value Decomposition (SVD)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-komponen-matriks-hasil-dekomposisi">Penjelasan komponen matriks hasil dekomposisi:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#apa-itu-eigenface">Apa itu Eigenface?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-9-memilih-komponen-penting">STEP 9 — Memilih Komponen Penting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-10-proyeksi-wajah-training">STEP 10 — Proyeksi Wajah Training</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-11-memproses-wajah-test">STEP 11 — Memproses Wajah Test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-12-menghitung-jarak">STEP 12 — Menghitung Jarak</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-13-menentukan-prediksi">STEP 13 — Menentukan Prediksi</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-14-threshold">STEP 14 — Threshold</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-yang-dihasilkan">7. Visualisasi yang Dihasilkan</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-fungsi-penting">8. Penjelasan Fungsi Penting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rumus-penting-yang-dipakai">9. Rumus Penting yang Dipakai</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#mean-face">Mean Face</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#centering">Centering</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#svd">SVD</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#proyeksi-eigenface">Proyeksi Eigenface</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-program">10. Output Program</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-cara-kerja-program">11. Kesimpulan Cara Kerja Program</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
